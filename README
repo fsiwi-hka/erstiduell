@@ -1,2 +1,13 @@
 This is a netbeans project.
 Please read LICENSE file.
+
+For questions visit our IRC at irc.freenode.net ##fsi
+
+Usage should be self explaining:
+
+- Start software
+- Choose question library
+- Choose buzzer buttons for each team
+- Choose display for game window
+
+- You can change the team name in the Gamecontroller window by double clicking the team name box
