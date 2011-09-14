@@ -32,7 +32,8 @@ public class QuestionLibrary {
 
 		String questionLine;
 		while((questionLine = br.readLine()) != null) {
-			if(!questionLine.startsWith("#"))
+			if(!questionLine.startsWith("#")
+					&& questionLine.trim().length() > 0)
 				questions.add(loadNextQuestion(questionLine));
 		}
 
