@@ -1,4 +1,4 @@
-package de.timroes.quizduell;
+package info.hska.erstiduell;
 
 /**
  *

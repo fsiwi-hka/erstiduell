@@ -1,4 +1,4 @@
-package de.timroes.quizduell.buzzer;
+package info.hska.erstiduell.buzzer;
 
 import java.awt.event.KeyEvent;
 

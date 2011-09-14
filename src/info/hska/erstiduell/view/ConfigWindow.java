@@ -9,12 +9,12 @@
  * Created on 12.03.2011, 21:55:44
  */
 
-package de.timroes.quizduell.view;
+package info.hska.erstiduell.view;
 
-import de.timroes.quizduell.Config;
-import de.timroes.quizduell.Game;
-import de.timroes.quizduell.buzzer.Key;
-import de.timroes.quizduell.questions.QuestionLibrary;
+import info.hska.erstiduell.Config;
+import info.hska.erstiduell.Game;
+import info.hska.erstiduell.buzzer.Key;
+import info.hska.erstiduell.questions.QuestionLibrary;
 import java.awt.Color;
 import java.awt.GraphicsDevice;
 import java.awt.event.FocusEvent;

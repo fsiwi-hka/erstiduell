@@ -3,12 +3,12 @@
  *
  * Created on 10.03.2011, 21:06:52
  */
-package de.timroes.quizduell.view;
+package info.hska.erstiduell.view;
 
-import de.timroes.quizduell.Game;
-import de.timroes.quizduell.Team;
-import de.timroes.quizduell.questions.Answer;
-import de.timroes.quizduell.questions.Question;
+import info.hska.erstiduell.Game;
+import info.hska.erstiduell.Team;
+import info.hska.erstiduell.questions.Answer;
+import info.hska.erstiduell.questions.Question;
 import java.awt.Color;
 import java.awt.GraphicsDevice;
 import javax.swing.JLabel;

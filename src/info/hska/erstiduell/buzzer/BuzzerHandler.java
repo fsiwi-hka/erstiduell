@@ -1,8 +1,8 @@
-package de.timroes.quizduell.buzzer;
+package info.hska.erstiduell.buzzer;
 
-import de.timroes.quizduell.Game;
-import de.timroes.quizduell.view.ControllerWindow;
-import de.timroes.quizduell.view.GameWindow;
+import info.hska.erstiduell.Game;
+import info.hska.erstiduell.view.ControllerWindow;
+import info.hska.erstiduell.view.GameWindow;
 import java.awt.AWTEvent;
 import java.awt.EventQueue;
 import java.awt.event.KeyEvent;

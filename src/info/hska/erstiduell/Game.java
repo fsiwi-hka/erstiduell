@@ -1,12 +1,12 @@
-package de.timroes.quizduell;
+package info.hska.erstiduell;
 
-import de.timroes.quizduell.buzzer.BuzzerHandler;
-import de.timroes.quizduell.questions.Answer;
-import de.timroes.quizduell.questions.Question;
-import de.timroes.quizduell.questions.QuestionLibrary;
-import de.timroes.quizduell.view.ConfigWindow;
-import de.timroes.quizduell.view.ControllerWindow;
-import de.timroes.quizduell.view.GameWindow;
+import info.hska.erstiduell.buzzer.BuzzerHandler;
+import info.hska.erstiduell.questions.Answer;
+import info.hska.erstiduell.questions.Question;
+import info.hska.erstiduell.questions.QuestionLibrary;
+import info.hska.erstiduell.view.ConfigWindow;
+import info.hska.erstiduell.view.ControllerWindow;
+import info.hska.erstiduell.view.GameWindow;
 import java.awt.GraphicsEnvironment;
 import java.awt.Toolkit;
 import java.util.ArrayList;

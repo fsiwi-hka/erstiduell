@@ -1,4 +1,4 @@
-package de.timroes.quizduell.questions;
+package info.hska.erstiduell.questions;
 
 import java.util.ArrayList;
 import java.util.Collections;

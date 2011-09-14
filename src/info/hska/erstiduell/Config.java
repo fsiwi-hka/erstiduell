@@ -1,6 +1,6 @@
-package de.timroes.quizduell;
+package info.hska.erstiduell;
 
-import de.timroes.quizduell.buzzer.Key;
+import info.hska.erstiduell.buzzer.Key;
 import java.awt.Color;
 import java.awt.GraphicsDevice;
 

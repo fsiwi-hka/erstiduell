@@ -3,13 +3,13 @@
  *
  * Created on 10.03.2011, 22:34:03
  */
-package de.timroes.quizduell.view;
+package info.hska.erstiduell.view;
 
-import de.timroes.quizduell.Game;
-import de.timroes.quizduell.buzzer.BuzzerHandler;
-import de.timroes.quizduell.questions.Answer;
-import de.timroes.quizduell.questions.Question;
-import de.timroes.quizduell.questions.QuestionLibrary;
+import info.hska.erstiduell.Game;
+import info.hska.erstiduell.buzzer.BuzzerHandler;
+import info.hska.erstiduell.questions.Answer;
+import info.hska.erstiduell.questions.Question;
+import info.hska.erstiduell.questions.QuestionLibrary;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.AbstractListModel;

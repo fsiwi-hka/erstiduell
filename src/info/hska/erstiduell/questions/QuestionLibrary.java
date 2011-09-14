@@ -1,4 +1,4 @@
-package de.timroes.quizduell.questions;
+package info.hska.erstiduell.questions;
 
 import java.io.BufferedReader;
 import java.io.File;
