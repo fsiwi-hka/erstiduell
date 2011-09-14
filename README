@@ -1,4 +1,18 @@
-This is a netbeans project.
+This is a netbeans project. Use either Netbeans to compile it or Ant.
+If you want to use Ant just type:
+
+$ ant
+
+to compile and:
+
+$ ant run
+
+to run. Once compiled there is also a JAR file in the dist folder that u can use
+everwhere:
+
+$ java -jar erstiduell.jar
+
+
 Please read LICENSE file.
 
 For questions visit our IRC at irc.freenode.net ##fsi
