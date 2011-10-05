@@ -153,6 +153,8 @@ public class GameWindow extends javax.swing.JFrame {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
+        timerPanel = new javax.swing.JPanel();
+        timer = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         points1 = new javax.swing.JLabel();
         points2 = new javax.swing.JLabel();
@@ -172,12 +174,34 @@ public class GameWindow extends javax.swing.JFrame {
         }
         winnerLabel = new javax.swing.JLabel();
         content = new javax.swing.JLabel();
-        timerPanel = new javax.swing.JPanel();
-        timer = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setUndecorated(true);
         getContentPane().setLayout(new java.awt.GridBagLayout());
+
+        timerPanel.setLayout(new java.awt.GridBagLayout());
+
+        timer.setFont(new java.awt.Font("Liberation Mono", 1, 80)); // NOI18N
+        timer.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        timer.setText("test");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        timerPanel.add(timer, gridBagConstraints);
+
+        timerPanel.setVisible(false);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.ipadx = 200;
+        gridBagConstraints.ipady = 100;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        getContentPane().add(timerPanel, gridBagConstraints);
 
         jPanel1.setBackground(new java.awt.Color(254, 254, 254));
         jPanel1.setLayout(new java.awt.GridBagLayout());
@@ -289,30 +313,6 @@ public class GameWindow extends javax.swing.JFrame {
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(20, 20, 10, 10);
         getContentPane().add(content, gridBagConstraints);
-
-        timerPanel.setLayout(new java.awt.GridBagLayout());
-
-        timer.setFont(new java.awt.Font("Liberation Mono", 1, 80)); // NOI18N
-        timer.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        timer.setText("test");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        timerPanel.add(timer, gridBagConstraints);
-
-        timerPanel.setVisible(false);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.ipadx = 200;
-        gridBagConstraints.ipady = 100;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        getContentPane().add(timerPanel, gridBagConstraints);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
