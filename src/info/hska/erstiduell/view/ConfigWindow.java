@@ -426,6 +426,8 @@ public final class ConfigWindow extends javax.swing.JFrame {
 
 	private void loadQuestionsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadQuestionsActionPerformed
 		JFileChooser fc = new JFileChooser();
+		File workingDirectory = new File(System.getProperty("user.dir"));
+		fc.setCurrentDirectory(workingDirectory);
 		fc.setFileFilter(new FileFilter() {
 
 			@Override
