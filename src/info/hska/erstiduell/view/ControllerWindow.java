@@ -52,22 +52,25 @@ public final class ControllerWindow extends javax.swing.JFrame {
 		buzzers.setEnabled(BuzzerHandler.getInstance().isBlocked());
 
 		for (int i = 0; i < this.game.getTeams().size(); i++) {
-			teamButtons[i].setText("<html><font color='"
-					+ (BuzzerHandler.getInstance().getBuzzerPlayer() - 1 == i ? "green" : "black")
+			teamButtons[i].setText("<html><b><font color='"
+					+ (BuzzerHandler.getInstance().getBuzzerPlayer() - 1 == i ? "red" : "black")
 					+ "'>"
 					+ this.game.getTeams().get(i).getName()
-					+ "</font></html>");
+					+ "</font></b></html>");
 		}
-
-		questions.removeAllItems();
+                
+                gameQuestions.removeAll();
+                
 		answers.removeAll();
-
-		questions.addItem("[Choose Question]");
-		for (Question q : QuestionLibrary.getInstance().getAllQuestions()) {
-			questions.addItem(q);
-		}
-
+//                
 		if (game.getCurrentQuestion() != null) {
+                    
+                        gameQuestions.addItem("[Choose Question]");
+
+                        for (Question q : QuestionLibrary.getInstance().getAllQuestions()) {
+                            gameQuestions.addItem(q);
+                        }
+                    
 			question.setText(game.getCurrentQuestion().getQuestionText());
 			answers.setModel(new AbstractListModel() {
 
@@ -81,9 +84,8 @@ public final class ControllerWindow extends javax.swing.JFrame {
 			});
 
 		}
-
-		int answered = QuestionLibrary.getInstance().getDoneQuestions();
-
+                int answered = QuestionLibrary.getInstance().getDoneQuestions();
+                
 		progressBar.setString(answered
 				+ "/" + QuestionLibrary.getInstance().getQuestionAmount());
 		progressBar.setValue(answered);
@@ -101,7 +103,7 @@ public final class ControllerWindow extends javax.swing.JFrame {
         java.awt.GridBagConstraints gridBagConstraints;
 
         chooseQuestionPanel = new javax.swing.JPanel();
-        questions = new javax.swing.JComboBox();
+        gameQuestions = new javax.swing.JComboBox();
         nextQues = new javax.swing.JButton();
         progressBar = new javax.swing.JProgressBar();
         question = new javax.swing.JLabel();
@@ -134,12 +136,12 @@ public final class ControllerWindow extends javax.swing.JFrame {
         chooseQuestionPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Questions"));
         chooseQuestionPanel.setLayout(new java.awt.GridBagLayout());
 
-        questions.setFont(new java.awt.Font("Liberation Mono", 0, 15));
-        questions.addActionListener(new ActionListener() {
+        gameQuestions.setFont(new java.awt.Font("Liberation Mono", 0, 15)); // NOI18N
+        gameQuestions.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
-                if(questions.getSelectedIndex() > 0) {
-                    game.nextQuestion((Question)questions.getSelectedItem());
+                if(gameQuestions.getSelectedIndex() > 0) {
+                    game.nextQuestion((Question)gameQuestions.getSelectedItem());
                 }
             }
 
@@ -150,7 +152,7 @@ public final class ControllerWindow extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 10);
-        chooseQuestionPanel.add(questions, gridBagConstraints);
+        chooseQuestionPanel.add(gameQuestions, gridBagConstraints);
 
         nextQues.setText("Random Question");
         nextQues.addActionListener(new java.awt.event.ActionListener() {
@@ -611,6 +613,7 @@ public final class ControllerWindow extends javax.swing.JFrame {
     private javax.swing.JPanel chooseQuestionPanel;
     private javax.swing.JButton exitButton;
     private javax.swing.JPanel gamePanel;
+    private javax.swing.JComboBox gameQuestions;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton nextQues;
     private javax.swing.JPanel pointPanel;
@@ -620,7 +623,6 @@ public final class ControllerWindow extends javax.swing.JFrame {
     private javax.swing.JSpinner points4;
     private javax.swing.JProgressBar progressBar;
     private javax.swing.JLabel question;
-    private javax.swing.JComboBox questions;
     private javax.swing.JButton show;
     private javax.swing.JButton showWinner;
     private javax.swing.JButton team1;
