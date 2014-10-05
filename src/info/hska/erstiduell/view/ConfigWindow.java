@@ -276,129 +276,12 @@ public final class ConfigWindow extends javax.swing.JFrame {
 
         inputSettings.setBorder(javax.swing.BorderFactory.createTitledBorder("Input Settings"));
         inputSettings.setLayout(new java.awt.GridBagLayout());
-
-        jLabel5.setText("Team 1:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.insets = new java.awt.Insets(2, 5, 2, 5);
-        inputSettings.add(jLabel5, gridBagConstraints);
-
-        input1.setText("[Assign key]");
-        input1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                input1ActionPerformed(evt);
-            }
-        });
-        input1.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                input1FocusLost(evt);
-            }
-        });
-        input1.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                input1KeyPressed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(2, 5, 2, 5);
-        inputSettings.add(input1, gridBagConstraints);
-
-        jLabel6.setText("Team 2:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.insets = new java.awt.Insets(2, 5, 2, 5);
-        inputSettings.add(jLabel6, gridBagConstraints);
-
-        jLabel7.setText("Team 3:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.insets = new java.awt.Insets(2, 5, 2, 5);
-        inputSettings.add(jLabel7, gridBagConstraints);
-
-        jLabel8.setText("Team 4:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.insets = new java.awt.Insets(2, 5, 2, 5);
-        inputSettings.add(jLabel8, gridBagConstraints);
-
-        input2.setText("[Assign key]");
-        input2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                input2ActionPerformed(evt);
-            }
-        });
-        input2.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                input2FocusLost(evt);
-            }
-        });
-        input2.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                input2KeyPressed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(2, 5, 2, 5);
-        inputSettings.add(input2, gridBagConstraints);
-
-        input3.setText("[Assign key]");
-        input3.setEnabled(false);
-        input3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                input3ActionPerformed(evt);
-            }
-        });
-        input3.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                input3FocusLost(evt);
-            }
-        });
-        input3.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                input3KeyPressed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(2, 5, 2, 5);
-        inputSettings.add(input3, gridBagConstraints);
-
-        input4.setText("[Assign key]");
-        input4.setEnabled(false);
-        input4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                input4ActionPerformed(evt);
-            }
-        });
-        input4.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                input4FocusLost(evt);
-            }
-        });
-        input4.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                input4KeyPressed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(2, 5, 2, 5);
-        inputSettings.add(input4, gridBagConstraints);
-
+    
+        teamInitialize(jLabel5, input1, 1);
+        teamInitialize(jLabel6, input2, 2);
+        teamInitialize(jLabel7, input3, 3);
+        teamInitialize(jLabel8, input4, 4);
+        
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 5;
@@ -423,7 +306,38 @@ public final class ConfigWindow extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    void teamInitialize(javax.swing.JLabel label, JToggleButton input, final int teamNo) {
+            label.setText("Team " + teamNo );
+            java.awt.GridBagConstraints gridBagConstraints = new java.awt.GridBagConstraints();
+            
+            input.setText("[Assign key]");
+            if (((Integer) amountPlayers.getValue()) < teamNo) {
+                input.setEnabled(false);
+            }
+            input.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    inputActionPerformed(evt);
+                }
+            });
+            input.addFocusListener(new java.awt.event.FocusAdapter() {
+                public void focusLost(java.awt.event.FocusEvent evt) {
+                    inputFocusLost(evt, teamNo);
+                }
+            });
+            input.addKeyListener(new java.awt.event.KeyAdapter() {
+                public void keyPressed(java.awt.event.KeyEvent evt) {
+                    inputKeyPressed(evt, teamNo);
+                }
+            });
+            gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+            gridBagConstraints.weightx = 1.0;
+            gridBagConstraints.gridx = 0;
+            gridBagConstraints.gridy = teamNo - 1;
+            gridBagConstraints.insets = new java.awt.Insets(2, 5, 2, 5);
+            inputSettings.add(input, gridBagConstraints);
+        }
+    
+    
 	private void loadQuestionsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadQuestionsActionPerformed
 		JFileChooser fc = new JFileChooser();
 		File workingDirectory = new File(System.getProperty("user.dir"));
@@ -485,54 +399,6 @@ public final class ConfigWindow extends javax.swing.JFrame {
 			dispose();
 		}
 	}//GEN-LAST:event_okActionPerformed
-
-	private void input1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_input1ActionPerformed
-		inputActionPerformed(evt);
-	}//GEN-LAST:event_input1ActionPerformed
-
-	private void input1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_input1KeyPressed
-		inputKeyPressed(evt, 1);
-	}//GEN-LAST:event_input1KeyPressed
-
-	private void input2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_input2ActionPerformed
-		inputActionPerformed(evt);
-	}//GEN-LAST:event_input2ActionPerformed
-
-	private void input2KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_input2KeyPressed
-		inputKeyPressed(evt, 2);
-	}//GEN-LAST:event_input2KeyPressed
-
-	private void input3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_input3ActionPerformed
-		inputActionPerformed(evt);
-	}//GEN-LAST:event_input3ActionPerformed
-
-	private void input3KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_input3KeyPressed
-		inputKeyPressed(evt, 3);
-	}//GEN-LAST:event_input3KeyPressed
-
-	private void input4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_input4ActionPerformed
-		inputActionPerformed(evt);
-	}//GEN-LAST:event_input4ActionPerformed
-
-	private void input4KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_input4KeyPressed
-		inputKeyPressed(evt, 4);
-	}//GEN-LAST:event_input4KeyPressed
-
-	private void input1FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_input1FocusLost
-		inputFocusLost(evt,1);
-	}//GEN-LAST:event_input1FocusLost
-
-	private void input2FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_input2FocusLost
-		inputFocusLost(evt, 2);
-	}//GEN-LAST:event_input2FocusLost
-
-	private void input3FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_input3FocusLost
-		inputFocusLost(evt, 3);
-	}//GEN-LAST:event_input3FocusLost
-
-	private void input4FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_input4FocusLost
-		inputFocusLost(evt, 4);
-	}//GEN-LAST:event_input4FocusLost
 
 	private void inputActionPerformed(java.awt.event.ActionEvent evt) {
 		JToggleButton input = (JToggleButton)evt.getSource();
