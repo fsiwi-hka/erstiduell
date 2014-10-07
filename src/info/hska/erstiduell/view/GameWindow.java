@@ -27,8 +27,8 @@ public class GameWindow extends javax.swing.JFrame {
 	public GameWindow(GraphicsDevice device, Game game) {
 		this.game = game;
 		initComponents();
-		//this.setSize(1024, 768);
-		device.setFullScreenWindow(this);
+		this.setSize(1024, 768);
+		//device.setFullScreenWindow(this);
 		this.points = new JLabel[]{points1, points2, points3, points4};
 		this.teams = new JLabel[]{teamName1, teamName2, teamName3, teamName4};
 	}
@@ -142,6 +142,26 @@ public class GameWindow extends javax.swing.JFrame {
 
 		content.setText(c.toString());
 	}
+
+	private void drawWinner() {
+		content.setVisible(false);
+
+		StringBuilder str = new StringBuilder();
+
+		str.append("<html><center>WINNER:<br><br>");
+
+		for (Team t : game.getWinner()) {
+			str.append(t.getName());
+			str.append("<br>");
+		}
+
+		str.append("</center></html>");
+
+		winnerLabel.setText(str.toString());
+
+		winnerLabel.setVisible(true);
+	}
+}
 
 	/** This method is called from within the constructor to
 	 * initialize the form.
@@ -332,22 +352,3 @@ public class GameWindow extends javax.swing.JFrame {
     private javax.swing.JLabel winnerLabel;
     // End of variables declaration//GEN-END:variables
 
-	private void drawWinner() {
-		content.setVisible(false);
-
-		StringBuilder str = new StringBuilder();
-
-		str.append("<html><center>WINNER:<br><br>");
-
-		for (Team t : game.getWinner()) {
-			str.append(t.getName());
-			str.append("<br>");
-		}
-
-		str.append("</center></html>");
-
-		winnerLabel.setText(str.toString());
-
-		winnerLabel.setVisible(true);
-	}
-}
