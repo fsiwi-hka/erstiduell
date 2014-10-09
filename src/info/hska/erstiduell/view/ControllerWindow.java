@@ -60,9 +60,9 @@ public final class ControllerWindow extends javax.swing.JFrame {
 		}
                 
                 gameQuestions.removeAll();
-                
+             
 		answers.removeAll();
-//                
+                
 		if (game.getCurrentQuestion() != null) {
                     
                         gameQuestions.addItem("[Choose Question]");
