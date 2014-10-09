@@ -161,7 +161,6 @@ public class GameWindow extends javax.swing.JFrame {
 
 		winnerLabel.setVisible(true);
 	}
-}
 
 	/** This method is called from within the constructor to
 	 * initialize the form.
@@ -351,4 +350,4 @@ public class GameWindow extends javax.swing.JFrame {
     private javax.swing.JPanel timerPanel;
     private javax.swing.JLabel winnerLabel;
     // End of variables declaration//GEN-END:variables
-
+}
