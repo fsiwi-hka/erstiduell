@@ -22,6 +22,7 @@ public class GameWindow extends javax.swing.JFrame {
 	private Game game;
 	private JLabel[] points;
 	private JLabel[] teams;
+        private String myAsterisk;
 
 	/** Creates new form GameWindow2 */
 	public GameWindow(GraphicsDevice device, Game game) {
@@ -94,8 +95,15 @@ public class GameWindow extends javax.swing.JFrame {
 				? 10 : game.getCurrentQuestion().getAnswers().size();
 		for (int i = 0; i < game.getPlayers(); i++) {
 			if (game.getTeams().get(i).getPenalty() >= numAnswers) {
+                                myAsterisk = "<p>";
+                                for (int j = 0; j < game.getTeams().get(i).getName().length(); j++) {
+                                    myAsterisk = myAsterisk + "*";
+                                }
+                                myAsterisk = myAsterisk + "</p>";
 				teams[i].setText("<html><font color='red'>"
+                                                + myAsterisk
 						+ game.getTeams().get(i).getName()
+                                                + myAsterisk
 						+ "</font></html>");
 			} else {
 				teams[i].setText(game.getTeams().get(i).getName());
