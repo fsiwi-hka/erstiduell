@@ -17,6 +17,11 @@ public class Key {
 		keyLocation = evt.getKeyLocation();
 		name = KeyEvent.getKeyText(evt.getKeyCode());
 	}
+        public Key(int keyCode, int keyLocation, String name) {
+            this.keyCode = keyCode;
+            this.keyLocation = keyLocation;
+            this.name = name;
+        }
 
 	@Override
 	public String toString() {
