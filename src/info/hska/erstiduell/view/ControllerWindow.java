@@ -60,7 +60,8 @@ public final class ControllerWindow extends javax.swing.JFrame {
 		}
                 
                 gameQuestions.removeAll();
-             
+                gameQuestions.removeAllItems();
+            
 		answers.removeAll();
                 
 		if (game.getCurrentQuestion() != null) {
