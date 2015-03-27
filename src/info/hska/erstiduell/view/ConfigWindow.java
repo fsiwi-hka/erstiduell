@@ -41,10 +41,15 @@ public final class ConfigWindow extends javax.swing.JFrame {
     /** Creates new form ConfigWindow2 */
     public ConfigWindow(Game game) {
 		this.game = game;
-        initComponents();
+                hotkeys[0] = new Key(85, 1, "U");
+                hotkeys[1] = new Key(73, 1, "I");
+                hotkeys[2] = new Key(65, 1, "A");
+                hotkeys[3] = new Key(69, 1, "E");
+                initComponents();
 		updateErrors();
     }
 
+    
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -306,11 +311,15 @@ public final class ConfigWindow extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+    
     void teamInitialize(javax.swing.JLabel label, JToggleButton input, final int teamNo) {
             label.setText("Team " + teamNo );
             java.awt.GridBagConstraints gridBagConstraints = new java.awt.GridBagConstraints();
-            
-            input.setText("[Assign key]");
+            if (hotkeys[teamNo - 1] != null) {
+                input.setText(hotkeys[teamNo - 1].toString());
+            }else {
+                input.setText("[Assign key]");
+            }
             if (((Integer) amountPlayers.getValue()) < teamNo) {
                 input.setEnabled(false);
             }
