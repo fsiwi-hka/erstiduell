@@ -1,7 +1,7 @@
 package info.hska.erstiduell.questions;
 
 /**
- * The answer to a question. It holds the answer and the amount of peaople
+ * The answer to a question. It holds the answer and the amount of people
  * answered this question.
  * 
  * @author Tim Roes
