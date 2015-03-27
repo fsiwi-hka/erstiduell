@@ -129,7 +129,9 @@ public final class ControllerWindow extends javax.swing.JFrame {
         showWinner = new javax.swing.JButton();
         exitButton = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        //setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        
         setTitle("Quizduell Controller");
         getContentPane().setLayout(new java.awt.GridBagLayout());
 

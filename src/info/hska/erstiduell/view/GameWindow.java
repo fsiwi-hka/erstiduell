@@ -202,7 +202,8 @@ public class GameWindow extends javax.swing.JFrame {
         winnerLabel = new javax.swing.JLabel();
         content = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        //setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
