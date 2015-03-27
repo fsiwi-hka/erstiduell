@@ -31,11 +31,11 @@ public class Game {
 	}
 
 	public void start() {
-		ConfigWindow cw = new ConfigWindow(this);
+		ConfigWindow cfgw = new ConfigWindow(this);
 
-		cw.setMonitors(GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices());
+		cfgw.setMonitors(GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices());
 
-		cw.setVisible(true);
+		cfgw.setVisible(true);
 	}
 
 	public void update() {
