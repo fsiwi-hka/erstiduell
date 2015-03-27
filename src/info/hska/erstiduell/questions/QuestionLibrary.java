@@ -12,7 +12,7 @@ import java.util.List;
  *
  * @author timroes
  */
-public class QuestionLibrary {
+public final class QuestionLibrary {
 
 	private static QuestionLibrary instance;
 
@@ -41,8 +41,8 @@ public class QuestionLibrary {
 
 	}
 
-	public static QuestionLibrary getInstance() {
-		return instance;
+	public static synchronized QuestionLibrary getInstance() {
+           return instance;
 	}
 
 	/**
@@ -103,7 +103,7 @@ public class QuestionLibrary {
 
 		int i = 0;
 
-		for(Question q : questions) {
+               		for(Question q : questions) {
 			if(q.getDone()) {
 				i++;
 			}
