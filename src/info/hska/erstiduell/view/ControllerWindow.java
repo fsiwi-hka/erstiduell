@@ -506,29 +506,30 @@ public final class ControllerWindow extends javax.swing.JFrame {
         getContentPane().add(gamePanel, gridBagConstraints);
 
         pack();
-    }// </editor-fold>//GEN-END:initComponents
+    }// </editor-fold>
 
-	private void nextQuesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextQuesActionPerformed
-		game.nextQuestion();
-	}//GEN-LAST:event_nextQuesActionPerformed
+	private void nextQuesActionPerformed(java.awt.event.ActionEvent evt) {
+		 game.nextQuestion();
+                
+	}
 
-	private void team1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_team1ActionPerformed
+	private void team1ActionPerformed(java.awt.event.ActionEvent evt) {
 		answer(1);
-	}//GEN-LAST:event_team1ActionPerformed
+	}
 
-	private void team2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_team2ActionPerformed
+	private void team2ActionPerformed(java.awt.event.ActionEvent evt) {
 		answer(2);
-	}//GEN-LAST:event_team2ActionPerformed
+	}
 
-	private void team3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_team3ActionPerformed
+	private void team3ActionPerformed(java.awt.event.ActionEvent evt) {
 		answer(3);
-	}//GEN-LAST:event_team3ActionPerformed
+	}
 
-	private void team4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_team4ActionPerformed
+	private void team4ActionPerformed(java.awt.event.ActionEvent evt) {
 		answer(4);
-	}//GEN-LAST:event_team4ActionPerformed
+	}
 
-	private void answersValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_answersValueChanged
+	private void answersValueChanged(javax.swing.event.ListSelectionEvent evt) {
 		boolean vis = answers.getSelectedValue() != null
 				&& !((Answer) answers.getSelectedValue()).getDone();
 		team1.setEnabled(vis);
@@ -536,28 +537,28 @@ public final class ControllerWindow extends javax.swing.JFrame {
 		team3.setEnabled(vis);
 		team4.setEnabled(vis);
 		show.setEnabled(vis);
-	}//GEN-LAST:event_answersValueChanged
+	}
 
-	private void showWinnerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showWinnerActionPerformed
+	private void showWinnerActionPerformed(java.awt.event.ActionEvent evt) {
 		if (JOptionPane.showConfirmDialog(this, "This will be irreversible. Still do it?",
 				"End Game?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
 			game.endGame();
 		}
-	}//GEN-LAST:event_showWinnerActionPerformed
+	}
 
-	private void exitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitButtonActionPerformed
+	private void exitButtonActionPerformed(java.awt.event.ActionEvent evt) {
 		if (game.isFinished() || JOptionPane.showConfirmDialog(this, "Do you want to exit the game?",
 				"Exiting?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
 			System.exit(0);
 		}
-	}//GEN-LAST:event_exitButtonActionPerformed
+	}
 
-	private void buzzersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buzzersActionPerformed
+	private void buzzersActionPerformed(java.awt.event.ActionEvent evt) {
 		buzzers.setEnabled(false);
 		game.releaseBuzzer();
-	}//GEN-LAST:event_buzzersActionPerformed
+	}
 
-	private void changeName(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_changeName
+	private void changeName(java.awt.event.MouseEvent evt) {
 		if (evt.getClickCount() == 2) {
 			if (evt.getSource().equals(teamName3) && game.getPlayers() < 3
 					|| evt.getSource().equals(teamName4) && game.getPlayers() < 4) {
@@ -571,11 +572,10 @@ public final class ControllerWindow extends javax.swing.JFrame {
 				src.requestFocus();
 				BuzzerHandler.getInstance().setEnabled(false);
 			}
-
 		}
-	}//GEN-LAST:event_changeName
+	}
 
-	private void changedName(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_changedName
+	private void changedName(java.awt.event.FocusEvent evt) {
 		JTextField src = (JTextField) evt.getSource();
 		if (src.isEnabled()) {
 			src.setEnabled(false);
@@ -602,14 +602,13 @@ public final class ControllerWindow extends javax.swing.JFrame {
 					&& !teamName3.isEnabled() && !teamName4.isEnabled());
 			game.update();
 		}
-	}//GEN-LAST:event_changedName
+	}
 
 	private void answer(int player) {
 		if (answers.getSelectedValue() != null) {
 			game.guessedAnswer((Answer) answers.getSelectedValue(), player);
 		}
 	}
-    // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel answerPanel;
     private javax.swing.JList answers;
     private javax.swing.JButton buzzers;
@@ -636,5 +635,4 @@ public final class ControllerWindow extends javax.swing.JFrame {
     private javax.swing.JTextField teamName2;
     private javax.swing.JTextField teamName3;
     private javax.swing.JTextField teamName4;
-    // End of variables declaration//GEN-END:variables
 }
