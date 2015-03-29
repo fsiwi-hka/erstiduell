@@ -365,11 +365,17 @@ public final class ConfigWindow extends javax.swing.JFrame {
 		});
 
 		fc.showDialog(this, "Load");
-
-		if (fc.getSelectedFile() == null) return;
+                loadQuestions(fc.getSelectedFile());
+                
+            
+            
+        }
+        
+        private void loadQuestions(File input){
+                if (input == null) return;
 
 		try {
-			QuestionLibrary.loadQuestions(fc.getSelectedFile());
+			QuestionLibrary.loadQuestions(input);
 		} catch (Exception ex) {
 
 			for(StackTraceElement el : ex.getStackTrace())
@@ -384,7 +390,7 @@ public final class ConfigWindow extends javax.swing.JFrame {
 
 		questionLabel.setText(String.valueOf(QuestionLibrary.getInstance()
 				.getQuestionAmount()) + " questions");
-		questionFile.setText(fc.getSelectedFile().getAbsolutePath());
+		questionFile.setText(input.getAbsolutePath());
 
 		updateErrors();
 
