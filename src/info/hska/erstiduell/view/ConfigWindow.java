@@ -305,7 +305,10 @@ public final class ConfigWindow extends javax.swing.JFrame {
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         getContentPane().add(ok, gridBagConstraints);
-
+        // automatically load demo questions for easy testing
+        if (false) {
+           loadQuestions(new File("./demo_questions.qes"));
+        }
         pack();
     }
 
