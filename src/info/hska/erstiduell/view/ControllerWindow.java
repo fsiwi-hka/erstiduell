@@ -39,10 +39,10 @@ public final class ControllerWindow extends javax.swing.JFrame {
 
 	public void refresh() {
 
-		points1.getModel().setValue(new Integer(game.getPoint(1)));
-		points2.getModel().setValue(new Integer(game.getPoint(2)));
-		points3.getModel().setValue(new Integer(game.getPoint(3)));
-		points4.getModel().setValue(new Integer(game.getPoint(4)));
+		points1.getModel().setValue(game.getPoint(1));
+		points2.getModel().setValue(game.getPoint(2));
+		points3.getModel().setValue(game.getPoint(3));
+		points4.getModel().setValue(game.getPoint(4));
 
 		if (BuzzerHandler.getInstance().getBuzzerPlayer() != 0) {
 			buzzers.setText("Release Buzzers [" + BuzzerHandler.getInstance().getBuzzerPlayer() + "]");
