@@ -93,7 +93,7 @@ public class GameWindow extends javax.swing.JFrame {
 	private void drawPlayerNames() {
 		int numAnswers = (game.getCurrentQuestion() == null)
 				? 10 : game.getCurrentQuestion().getAnswers().size();
-		for (int i = 0; i < game.getPlayers(); i++) {
+		for (int i = 0; i < game.getNumberOfPlayers(); i++) {
 			if (game.getTeams().get(i).getPenalty() >= numAnswers) {
                                 myAsterisk = "<p>";
                                 for (int j = 0; j < game.getTeams().get(i).getName().length(); j++) {
@@ -185,18 +185,18 @@ public class GameWindow extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         points1 = new javax.swing.JLabel();
         points2 = new javax.swing.JLabel();
-        if(game.getPlayers() >= 3) {
+        if(game.getNumberOfPlayers() >= 3) {
             points3 = new javax.swing.JLabel();
         }
-        if(game.getPlayers() >= 4) {
+        if(game.getNumberOfPlayers() >= 4) {
             points4 = new javax.swing.JLabel();
         }
         teamName1 = new javax.swing.JLabel();
         teamName2 = new javax.swing.JLabel();
-        if(game.getPlayers() >= 3) {
+        if(game.getNumberOfPlayers() >= 3) {
             teamName3 = new javax.swing.JLabel();
         }
-        if(game.getPlayers() >= 4) {
+        if(game.getNumberOfPlayers() >= 4) {
             teamName4 = new javax.swing.JLabel();
         }
         winnerLabel = new javax.swing.JLabel();
@@ -251,7 +251,7 @@ public class GameWindow extends javax.swing.JFrame {
         gridBagConstraints.weightx = 1.0;
         jPanel1.add(points2, gridBagConstraints);
 
-        if(game.getPlayers() >= 3) {
+        if(game.getNumberOfPlayers() >= 3) {
             points3.setFont(new java.awt.Font("Liberation Mono", 1, 36));
             points3.setText("0");
             gridBagConstraints = new java.awt.GridBagConstraints();
@@ -261,7 +261,7 @@ public class GameWindow extends javax.swing.JFrame {
             jPanel1.add(points3, gridBagConstraints);
         }
 
-        if(game.getPlayers() >= 4) {
+        if(game.getNumberOfPlayers() >= 4) {
             points4.setFont(new java.awt.Font("Liberation Mono", 1, 36));
             points4.setText("0");
             gridBagConstraints = new java.awt.GridBagConstraints();
@@ -291,7 +291,7 @@ public class GameWindow extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 2, 0);
         jPanel1.add(teamName2, gridBagConstraints);
 
-        if(game.getPlayers() >= 3) {
+        if(game.getNumberOfPlayers() >= 3) {
             teamName3.setFont(new java.awt.Font("DejaVu Sans", 1, 20));
             teamName3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
             teamName3.setText("T3");
@@ -301,7 +301,7 @@ public class GameWindow extends javax.swing.JFrame {
             jPanel1.add(teamName3, gridBagConstraints);
         }
 
-        if(game.getPlayers() >= 4) {
+        if(game.getNumberOfPlayers() >= 4) {
             teamName4.setFont(new java.awt.Font("DejaVu Sans", 1, 20));
             teamName4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
             teamName4.setText("T4");

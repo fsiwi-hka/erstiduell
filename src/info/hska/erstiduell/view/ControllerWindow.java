@@ -16,6 +16,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.AbstractListModel;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -107,7 +108,7 @@ public final class ControllerWindow extends javax.swing.JFrame {
 
         chooseQuestionPanel = new javax.swing.JPanel();
         gameQuestions = new javax.swing.JComboBox<Question>();
-        nextQues = new javax.swing.JButton();
+        nextQuestion = new javax.swing.JButton();
         progressBar = new javax.swing.JProgressBar();
         question = new javax.swing.JLabel();
         answerPanel = new javax.swing.JPanel();
@@ -157,16 +158,16 @@ public final class ControllerWindow extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 10);
         chooseQuestionPanel.add(gameQuestions, gridBagConstraints);
 
-        nextQues.setText("Random Question");
-        nextQues.addActionListener(new java.awt.event.ActionListener() {
+        nextQuestion.setText("Random Question");
+        nextQuestion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                nextQuesActionPerformed(evt);
+                nextQuestionActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(2, 0, 2, 2);
-        chooseQuestionPanel.add(nextQues, gridBagConstraints);
+        chooseQuestionPanel.add(nextQuestion, gridBagConstraints);
 
         progressBar.setString("X/X");
         progressBar.setStringPainted(true);
@@ -186,7 +187,7 @@ public final class ControllerWindow extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 10);
         getContentPane().add(chooseQuestionPanel, gridBagConstraints);
 
-        question.setFont(new java.awt.Font("Liberation Sans", 1, 15)); // NOI18N
+        question.setFont(new java.awt.Font("Liberation Sans", 1, 15)); 
         question.setText(" ");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -199,7 +200,7 @@ public final class ControllerWindow extends javax.swing.JFrame {
         answerPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Answers"));
         answerPanel.setLayout(new java.awt.GridBagLayout());
 
-        answers.setFont(new java.awt.Font("Liberation Mono", 0, 15)); // NOI18N
+        answers.setFont(new java.awt.Font("Liberation Mono", 0, 15));
         answers.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         answers.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
@@ -505,6 +506,24 @@ public final class ControllerWindow extends javax.swing.JFrame {
     public void team4ActionPerformed(java.awt.event.ActionEvent evt) {
             answer(4);
     }
+    
+    private void showWinnerActionPerformed(java.awt.event.ActionEvent evt) {
+        if (JOptionPane.showConfirmDialog(this, "This will be irreversible. Still do it?",
+                "End Game?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
+            game.endGame();
+        }
+    }
+    
+    private void exitButtonActionPerformed(java.awt.event.ActionEvent evt) {
+        if (game.isFinished() || JOptionPane.showConfirmDialog(this, "Do you want to exit the game?",
+                        "Exiting?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
+            System.exit(0);
+        }
+    }
+    
+    private void nextQuestionActionPerformed(java.awt.event.ActionEvent evt) {
+        game.nextQuestion();
+    }
 
     public void answersValueChanged(javax.swing.event.ListSelectionEvent evt) {
         boolean vis = answers.getSelectedValue() != null
@@ -585,7 +604,7 @@ public final class ControllerWindow extends javax.swing.JFrame {
     private javax.swing.JButton exitButton;
     private javax.swing.JPanel gamePanel;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JButton nextQues;
+    private javax.swing.JButton nextQuestion;
     private javax.swing.JPanel pointPanel;
     private javax.swing.JSpinner points1;
     private javax.swing.JSpinner points2;

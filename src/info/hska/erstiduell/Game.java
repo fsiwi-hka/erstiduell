@@ -68,7 +68,7 @@ public class Game {
 
 	}
 
-	public int getPlayers() {
+	public int getNumberOfPlayers() {
 		return teams.size();
 	}
 
