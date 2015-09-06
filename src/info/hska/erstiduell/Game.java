@@ -49,11 +49,14 @@ public class Game implements Observer{
 		cw.refresh();
 		gw.redraw();
 	}
+        
         public void update(Observable BuzzerHandler, Object o) {
             this.bh = (BuzzerHandler) o;
+            this.currentTeam = bh.getCurrentTeam();
+            this.buzzersBlocked = bh.getBlocked();
             
-            gw.showBuzzer(bh.getBuzzerPlayer());
-            setCurrentTeam(bh.getBuzzerPlayer());
+            update();
+            gw.showBuzzer(currentTeam);
         }
 
 
@@ -82,6 +85,10 @@ public class Game implements Observer{
 	public int getNumberOfPlayers() {
 		return teams.size();
 	}
+        
+        public int getCurrentPlayer() {
+            return currentTeam;
+        }
 
 	public void setPoints(int player, int points) {
 		teams.get(player - 1).setPoints(points);
@@ -91,6 +98,10 @@ public class Game implements Observer{
 
         public boolean areBuzzersBlocked() {
             return buzzersBlocked;
+        }
+        
+        public void setBuzzersBlocked(boolean buzzersBlocked) {
+            this.buzzersBlocked = buzzersBlocked;
         }
 
         
@@ -108,6 +119,7 @@ public class Game implements Observer{
 
 	public void setCurrentTeam(int team) {
 		this.currentTeam = team;
+                gw.showBuzzer(team);
 	}
 
 	public void resetPenalties() {
@@ -210,9 +222,9 @@ public class Game implements Observer{
 			} catch (InterruptedException ex) {
 			}
 
-			Game.this.releaseTimer = null;
+			releaseTimer = null;
 			bh.release();
-			Game.this.update();
+			update();
 		}
 	};
 	ReleaseTimer releaseTimer;

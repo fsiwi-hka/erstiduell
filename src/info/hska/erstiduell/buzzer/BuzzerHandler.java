@@ -1,11 +1,6 @@
 package info.hska.erstiduell.buzzer;
 
 import info.hska.erstiduell.Game;
-import info.hska.erstiduell.view.ControllerWindow;
-import info.hska.erstiduell.view.GameWindow;
-import java.awt.AWTEvent;
-import java.awt.EventQueue;
-import java.awt.event.KeyEvent;
 import java.util.Observable;
 
 /**
@@ -31,6 +26,14 @@ public final class BuzzerHandler extends Observable {
         public void setEnabled(boolean enabled) {
             this.enabled = enabled;
 	}
+        
+        public int getCurrentTeam() {
+            return currentPlayer;
+        }
+        
+        public boolean getBlocked() {
+            return blocked;
+        }
       
 	protected void setSuccessfulBuzz(int player) {
 
@@ -40,11 +43,12 @@ public final class BuzzerHandler extends Observable {
                 int numAnswers = this.game.getCurrentQuestion().getAnswers().size();
 
                 if( this.game.getTeams().get(player - 1).getPenalty() < numAnswers) {
-                    if(blocked) {
+                    if(game.areBuzzersBlocked()) {
                         lastBuzz[player - 1] = now;
                     } else if (now - lastBuzz[player - 1] < 1000) {
 
                     } else {
+                        //game.setBuzzersBlocked(true);
                         blocked = true;
                         currentPlayer = player;
 
@@ -54,21 +58,16 @@ public final class BuzzerHandler extends Observable {
                 }
             }
         }
-
-	public int getBuzzerPlayer() {
-            return currentPlayer;
-	}
-        
-	/**
-	 * @return the blocked
-	 */
-	public boolean isBlocked() {
-            return blocked;
-	}
         
 	public void release() {
             currentPlayer = 0;
+            //game.setCurrentTeam(0);
             blocked = false;
+            //game.setBuzzersBlocked(false);
+            
+            
+            setChanged();
+            notifyObservers(this);
 	}
 
 

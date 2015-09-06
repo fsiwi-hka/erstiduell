@@ -64,7 +64,7 @@ public final class ControllerWindow extends javax.swing.JFrame {
 
                 for (int i = 0; i < this.game.getTeams().size(); i++) {
 			teamButtons[i].setText("<html><b><font color='"
-					+ (BuzzerEventQueue.getInstance().getBuzzerPlayer() - 1 == i ? "red" : "black")
+					+ (game.getCurrentPlayer() == i + 1 ? "red" : "black")
 					+ "'>"
 					+ this.game.getTeams().get(i).getName()
 					+ "</font></b></html>");

@@ -63,9 +63,10 @@ public class GameWindow extends javax.swing.JFrame {
 	}
 
 	public void showBuzzer(int team) {
+          if (team > 0) {
 		timer.setText("<html><center>" + game.getTeams().get(team - 1).getName()
 				+ "</center></html>");
-
+            }
 		timerPanel.setVisible(true);
 	}
 
