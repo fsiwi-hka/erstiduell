@@ -8,6 +8,7 @@ package info.hska.erstiduell.view;
 import info.hska.erstiduell.Game;
 import info.hska.erstiduell.buzzer.BuzzerHandler;
 import info.hska.erstiduell.Mouse;
+import info.hska.erstiduell.buzzer.BuzzerEventQueue;
 import info.hska.erstiduell.questions.Answer;
 import info.hska.erstiduell.questions.Question;
 import info.hska.erstiduell.questions.QuestionLibrary;
@@ -54,16 +55,16 @@ public final class ControllerWindow extends javax.swing.JFrame {
 		points3.getModel().setValue(game.getPoint(3));
 		points4.getModel().setValue(game.getPoint(4));
 
-		if (BuzzerHandler.getInstance().getBuzzerPlayer() != 0) {
-			buzzers.setText("Release Buzzers [" + BuzzerHandler.getInstance().getBuzzerPlayer() + "]");
+		if (BuzzerEventQueue.getInstance().getBuzzerPlayer() != 0) {
+			buzzers.setText("Release Buzzers [" + BuzzerEventQueue.getInstance().getBuzzerPlayer() + "]");
 		} else {
 			buzzers.setText("Release Buzzers");
 		}
-		buzzers.setEnabled(BuzzerHandler.getInstance().isBlocked());
+		buzzers.setEnabled(game.areBuzzersBlocked());
 
-		for (int i = 0; i < this.game.getTeams().size(); i++) {
+                for (int i = 0; i < this.game.getTeams().size(); i++) {
 			teamButtons[i].setText("<html><b><font color='"
-					+ (BuzzerHandler.getInstance().getBuzzerPlayer() - 1 == i ? "red" : "black")
+					+ (BuzzerEventQueue.getInstance().getBuzzerPlayer() - 1 == i ? "red" : "black")
 					+ "'>"
 					+ this.game.getTeams().get(i).getName()
 					+ "</font></b></html>");
@@ -561,7 +562,7 @@ public final class ControllerWindow extends javax.swing.JFrame {
                 if (!src.isEnabled()) {
                     src.setEnabled(true);
                     src.requestFocus();
-                    BuzzerHandler.getInstance().setEnabled(false);
+                    BuzzerEventQueue.getInstance().setEnabled(false);
            	}
             }
         }
@@ -585,7 +586,7 @@ public final class ControllerWindow extends javax.swing.JFrame {
 
                     setTeams(src.getText(), team);
                     game.getTeams().get(team).setName(src.getText());
-                    BuzzerHandler.getInstance().setEnabled(!getTeamNames()[0].isEnabled() && !getTeamNames()[1].isEnabled()
+                    BuzzerEventQueue.getInstance().setEnabled(!getTeamNames()[0].isEnabled() && !getTeamNames()[1].isEnabled()
                                     && !getTeamNames()[2].isEnabled() && !getTeamNames()[3].isEnabled());
                     game.update();
             }

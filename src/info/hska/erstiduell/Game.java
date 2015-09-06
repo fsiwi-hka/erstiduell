@@ -1,5 +1,6 @@
 package info.hska.erstiduell;
 
+import info.hska.erstiduell.buzzer.BuzzerEventQueue;
 import info.hska.erstiduell.buzzer.BuzzerHandler;
 import info.hska.erstiduell.questions.Answer;
 import info.hska.erstiduell.questions.Question;
@@ -11,12 +12,14 @@ import java.awt.GraphicsEnvironment;
 import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  * 
  * @author Tim Roes
  */
-public class Game {
+public class Game implements Observer{
 
 	private int[] points;
 	private List<Team> teams;
@@ -26,6 +29,10 @@ public class Game {
 	private Question currentQuestion;
 	private boolean finished;
 	private int currentTeam = -1;
+        private BuzzerHandler bh;
+        private boolean buzzersBlocked = true;
+
+
 
 	public Game() {
 	}
@@ -42,6 +49,13 @@ public class Game {
 		cw.refresh();
 		gw.redraw();
 	}
+        public void update(Observable BuzzerHandler, Object o) {
+            this.bh = (BuzzerHandler) o;
+            
+            gw.showBuzzer(bh.getBuzzerPlayer());
+            setCurrentTeam(bh.getBuzzerPlayer());
+        }
+
 
 	public void configured(Config config) {
 
@@ -51,9 +65,10 @@ public class Game {
 		for (int i = 0; i < config.players; i++) {
 			teams.add(new Team("T" + (i + 1)));
 		}
-
-		BuzzerHandler.setKeys(config.hotkeys);
-		Toolkit.getDefaultToolkit().getSystemEventQueue().push(BuzzerHandler.getInstance());
+                bh = new BuzzerHandler(config.hotkeys, this);
+                bh.addObserver(this);
+                BuzzerEventQueue.setKeys(config.hotkeys, bh);
+		Toolkit.getDefaultToolkit().getSystemEventQueue().push(BuzzerEventQueue.getInstance());
 
 		cw = new ControllerWindow(this);
 		cw.setVisible(true);
@@ -62,10 +77,6 @@ public class Game {
 		gw.setBGColor(config.background);
 		gw.setFGColor(config.foreground);
 		gw.setVisible(true);
-
-		BuzzerHandler.getInstance().setControllerWindow(cw);
-		BuzzerHandler.getInstance().setGameWindow(gw);
-
 	}
 
 	public int getNumberOfPlayers() {
@@ -78,6 +89,11 @@ public class Game {
 		update();
 	}
 
+        public boolean areBuzzersBlocked() {
+            return buzzersBlocked;
+        }
+
+        
 	public int getPoint(int player) {
 		if (player > teams.size()) {
 			return 0;
@@ -195,7 +211,7 @@ public class Game {
 			}
 
 			Game.this.releaseTimer = null;
-			BuzzerHandler.getInstance().release();
+			bh.release();
 			Game.this.update();
 		}
 	};

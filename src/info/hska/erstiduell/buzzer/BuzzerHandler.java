@@ -6,100 +6,71 @@ import info.hska.erstiduell.view.GameWindow;
 import java.awt.AWTEvent;
 import java.awt.EventQueue;
 import java.awt.event.KeyEvent;
+import java.util.Observable;
 
 /**
- *
- * @author timroes
+ * Observable
+ * @author Moritz Grimm
  */
-public class BuzzerHandler extends EventQueue {
+public final class BuzzerHandler extends Observable {
 
 	private static BuzzerHandler instance;
-
-	public static void setKeys(Key[] hotkeys) {
-		instance = new BuzzerHandler(hotkeys);
-	}
-
-	public static BuzzerHandler getInstance() {
-		return instance;
-	}
-
-	// INSTANCE
-
-	private Key[] hotkeys;
-	private GameWindow gw;
-	private ControllerWindow cw;
-	private boolean blocked = true;
-	private int player;
-	private boolean enabled;
-	private Game game;
+        
+        private Key[] hotkeys;
+	private boolean enabled = true;
 	private long[] lastBuzz = new long[] { 0, 0, 0, 0};
+	private int currentPlayer;
+	private boolean blocked = true;
+        private Game game;
 
-	private BuzzerHandler(Key[] hotkeys) {
+        public BuzzerHandler(Key[] hotkeys, Game game) {
 		this.hotkeys = hotkeys;
-		this.enabled = true;
+                this.game = game;
+        }
+     
+        public void setEnabled(boolean enabled) {
+            this.enabled = enabled;
 	}
+      
+	protected void setSuccessfulBuzz(int player) {
 
-	public void setGameWindow(GameWindow gw) {
-		this.gw = gw;
-		this.game = this.gw.getGame();
-	}
+            if(enabled && game != null && this.game.getCurrentQuestion() != null && player <= game.getNumberOfPlayers()) {
+                    
+                long now = System.currentTimeMillis();
+                int numAnswers = this.game.getCurrentQuestion().getAnswers().size();
 
-	public void setControllerWindow(ControllerWindow cw) {
-		this.cw = cw;
-	}
+                if( this.game.getTeams().get(player - 1).getPenalty() < numAnswers) {
+                    if(blocked) {
+                        lastBuzz[player - 1] = now;
+                    } else if (now - lastBuzz[player - 1] < 1000) {
 
-	@Override
-	protected void dispatchEvent(AWTEvent e) {
+                    } else {
+                        blocked = true;
+                        currentPlayer = player;
 
-		if(enabled && gw != null && e instanceof KeyEvent) {
-			if(this.game.getCurrentQuestion() == null) return;
-
-			KeyEvent evt = (KeyEvent)e;
-			int numAnswers = this.game.getCurrentQuestion().getAnswers().size();
-			long now = System.currentTimeMillis();
-
-			for(int i = 0; i < hotkeys.length; i++) {
-				if(hotkeys[i].equals(new Key(evt))
-						&& this.game.getTeams().get(i).getPenalty() < numAnswers) {
-					if(blocked) {
-						lastBuzz[i] = now;
-						break;
-					} else if (now - lastBuzz[i] < 1000) {
-						break;
-					}
-					blocked = true;
-					player = i + 1;
-					gw.showBuzzer(player);
-					this.game.setCurrentTeam(i);
-					cw.refresh();
-					break;
-				}
-			}
-
-			return;
-		}
-
-		super.dispatchEvent(e);
-	}
+                        setChanged();
+                        notifyObservers(this);
+                    }
+                }
+            }
+        }
 
 	public int getBuzzerPlayer() {
-		return player;
+            return currentPlayer;
 	}
-
-	public void release() {
-		player = 0;
-		blocked = false;
-	}
-
-	public void setEnabled(boolean enabled) {
-		this.enabled = enabled;
-	}
-
+        
 	/**
 	 * @return the blocked
 	 */
 	public boolean isBlocked() {
-		return blocked;
+            return blocked;
 	}
+        
+	public void release() {
+            currentPlayer = 0;
+            blocked = false;
+	}
+
+
 
 }
