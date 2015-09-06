@@ -19,7 +19,7 @@ import java.util.Observer;
  * 
  * @author Tim Roes
  */
-public class Game implements Observer{
+public class Game extends Observable implements Observer{
 
 	private int[] points;
 	private List<Team> teams;
@@ -75,11 +75,15 @@ public class Game implements Observer{
 
 		cw = new ControllerWindow(this);
 		cw.setVisible(true);
+                
+                this.addObserver(cw);
 
-		gw = new GameWindow(config.display, this);
+		gw = new GameWindow(this);
 		gw.setBGColor(config.background);
 		gw.setFGColor(config.foreground);
 		gw.setVisible(true);
+                
+                this.addObserver(gw);
 	}
 
 	public int getNumberOfPlayers() {

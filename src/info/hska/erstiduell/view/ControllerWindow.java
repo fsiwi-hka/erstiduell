@@ -15,6 +15,8 @@ import info.hska.erstiduell.questions.QuestionLibrary;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Observable;
+import java.util.Observer;
 import javax.swing.AbstractListModel;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
@@ -26,7 +28,7 @@ import javax.swing.event.ChangeListener;
  *
  * @author timroes
  */
-public final class ControllerWindow extends javax.swing.JFrame {
+public final class ControllerWindow extends javax.swing.JFrame implements Observer {
 
 	private Game game;
 	private JButton[] teamButtons;
@@ -45,7 +47,11 @@ public final class ControllerWindow extends javax.swing.JFrame {
                 
                 this.setLocationByPlatform(true);
                 this.setVisible(true);
-                refresh();
+                
+        }
+        public void update(Observable game, Object o) {
+            this.game = (Game) o;
+            refresh();
         }
         
 	public void refresh() {
@@ -55,14 +61,14 @@ public final class ControllerWindow extends javax.swing.JFrame {
 		points3.getModel().setValue(game.getPoint(3));
 		points4.getModel().setValue(game.getPoint(4));
 
-		if (BuzzerEventQueue.getInstance().getBuzzerPlayer() != 0) {
-			buzzers.setText("Release Buzzers [" + BuzzerEventQueue.getInstance().getBuzzerPlayer() + "]");
+		if (game.getCurrentPlayer() != 0) {
+			buzzers.setText("Release Buzzers [" + game.getCurrentPlayer() + "]");
 		} else {
 			buzzers.setText("Release Buzzers");
 		}
 		buzzers.setEnabled(game.areBuzzersBlocked());
 
-                for (int i = 0; i < this.game.getTeams().size(); i++) {
+		for (int i = 0; i < this.game.getTeams().size(); i++) {
 			teamButtons[i].setText("<html><b><font color='"
 					+ (game.getCurrentPlayer() == i + 1 ? "red" : "black")
 					+ "'>"
@@ -507,20 +513,24 @@ public final class ControllerWindow extends javax.swing.JFrame {
     public void team4ActionPerformed(java.awt.event.ActionEvent evt) {
             answer(4);
     }
-    
+
     private void showWinnerActionPerformed(java.awt.event.ActionEvent evt) {
         if (JOptionPane.showConfirmDialog(this, "This will be irreversible. Still do it?",
                 "End Game?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
             game.endGame();
         }
     }
-    
+
     private void exitButtonActionPerformed(java.awt.event.ActionEvent evt) {
         if (game.isFinished() || JOptionPane.showConfirmDialog(this, "Do you want to exit the game?",
                         "Exiting?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
             System.exit(0);
         }
     }
+
+    
+    
+    
     
     private void nextQuestionActionPerformed(java.awt.event.ActionEvent evt) {
         game.nextQuestion();
@@ -545,10 +555,7 @@ public final class ControllerWindow extends javax.swing.JFrame {
         this.teams[team].setText(teamnames);
     }
 
-    public void buzzersActionPerformed(java.awt.event.ActionEvent evt) {
-        buzzers.setEnabled(false);
-        game.releaseBuzzer();
-    }
+    
 
     public void doChangeName(java.awt.event.MouseEvent evt) {
     	if (evt.getClickCount() == 2) {
@@ -566,6 +573,11 @@ public final class ControllerWindow extends javax.swing.JFrame {
            	}
             }
         }
+
+    public void buzzersActionPerformed(java.awt.event.ActionEvent evt) {
+        buzzers.setEnabled(false);
+        game.releaseBuzzer();
+    }
 
     public void changedName(java.awt.event.FocusEvent evt) {
             JTextField src = (JTextField) evt.getSource();

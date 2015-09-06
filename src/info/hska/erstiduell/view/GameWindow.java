@@ -10,29 +10,37 @@ import info.hska.erstiduell.Team;
 import info.hska.erstiduell.questions.Answer;
 import info.hska.erstiduell.questions.Question;
 import java.awt.Color;
-import java.awt.GraphicsDevice;
+import java.util.Observable;
+import java.util.Observer;
 import javax.swing.JLabel;
 
 /**
  *
  * @author timroes
  */
-public class GameWindow extends javax.swing.JFrame {
+public class GameWindow extends javax.swing.JFrame implements Observer {
 
 	private Game game;
 	private JLabel[] points;
 	private JLabel[] teams;
         private String myAsterisk;
 
-	/** Creates new form GameWindow2 */
-	public GameWindow(GraphicsDevice device, Game game) {
-		this.game = game;
+	/** Creates new GameWindow
+        * @param game
+        */
+	public GameWindow(Game game) {
+                this.game = game;
 		initComponents();
 		this.setSize(1024, 768);
 		//device.setFullScreenWindow(this);
 		this.points = new JLabel[]{points1, points2, points3, points4};
 		this.teams = new JLabel[]{teamName1, teamName2, teamName3, teamName4};
 	}
+        
+        public void update(Observable Game, Object o) {
+            this.game = (Game) o;
+            redraw();
+        }
 
 	public Game getGame() {
 		return game;
@@ -360,4 +368,5 @@ public class GameWindow extends javax.swing.JFrame {
     private javax.swing.JPanel timerPanel;
     private javax.swing.JLabel winnerLabel;
     // End of variables declaration//GEN-END:variables
+
 }
