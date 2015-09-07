@@ -28,7 +28,7 @@ public class Main {
 			Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
 		}
 
-		new Game().start();
+		new Controller().start();
 
     }
 

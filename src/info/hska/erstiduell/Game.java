@@ -19,7 +19,7 @@ import java.util.Observer;
  * 
  * @author Tim Roes
  */
-public class Game extends Observable implements Observer{
+public class Game extends Observable{
 
 	private int[] points;
 	private List<Team> teams;
@@ -34,72 +34,23 @@ public class Game extends Observable implements Observer{
 
 
 
-	public Game() {
-	}
-
-	public void start() {
-		ConfigWindow cfgw = new ConfigWindow(this);
-
-		cfgw.setMonitors(GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices());
-
-		cfgw.setVisible(true);
-	}
-
-	public void update() {
-		cw.refresh();
-		gw.redraw();
-	}
-        
-        public void update(Observable BuzzerHandler, Object o) {
-            this.bh = (BuzzerHandler) o;
-            this.currentTeam = bh.getCurrentTeam();
-            this.buzzersBlocked = bh.getBlocked();
-            
-            update();
-            gw.showBuzzer(currentTeam);
-        }
-
-
-	public void configured(Config config) {
-
-		questions = QuestionLibrary.getInstance();
+	public Game(Config config) {
+            questions = QuestionLibrary.getInstance();
 
 		teams = new ArrayList<Team>();
 		for (int i = 0; i < config.players; i++) {
 			teams.add(new Team("T" + (i + 1)));
 		}
-                bh = new BuzzerHandler(config.hotkeys, this);
-                bh.addObserver(this);
-                BuzzerEventQueue.setKeys(config.hotkeys, bh);
-		Toolkit.getDefaultToolkit().getSystemEventQueue().push(BuzzerEventQueue.getInstance());
-
-		cw = new ControllerWindow(this);
-		cw.setVisible(true);
-                
-                this.addObserver(cw);
-
-		gw = new GameWindow(this);
-		gw.setBGColor(config.background);
-		gw.setFGColor(config.foreground);
-		gw.setVisible(true);
-                
-                this.addObserver(gw);
 	}
 
 	public int getNumberOfPlayers() {
 		return teams.size();
 	}
         
-        public int getCurrentPlayer() {
+        public int getCurrentTeam() {
             return currentTeam;
         }
-
-	public void setPoints(int player, int points) {
-		teams.get(player - 1).setPoints(points);
-
-		update();
-	}
-
+	
         public boolean areBuzzersBlocked() {
             return buzzersBlocked;
         }
@@ -113,18 +64,32 @@ public class Game extends Observable implements Observer{
 		if (player > teams.size()) {
 			return 0;
 		}
-
 		return teams.get(player - 1).getPoints();
 	}
 
 	public List<Team> getTeams() {
 		return this.teams;
 	}
-
+        
+        public QuestionLibrary getQuestions() {
+            return questions;
+        }
+        
 	public void setCurrentTeam(int team) {
 		this.currentTeam = team;
-                gw.showBuzzer(team);
+                
+                setChanged();
+                notifyObservers(this);
+                //   gw.showBuzzer(team);
 	}
+        
+	public Question getCurrentQuestion() {
+		return currentQuestion;
+	}
+        
+        public void setCurrentQuestion(Question question) {
+            this.currentQuestion = question;
+        }
 
 	public void resetPenalties() {
 		for (Team t : this.getTeams()) {
@@ -132,66 +97,16 @@ public class Game extends Observable implements Observer{
 		}
 	}
 
-	public void nextQuestion(Question q) {
-		currentQuestion = q;
-		currentQuestion.done();
-		resetPenalties();
-		currentTeam = -1;
-		update();
-		releaseBuzzer();
-	}
-
-	public Question nextQuestion() {
-		List<Question> qs = questions.getAllQuestions();
-
-		// Get random question
-		int i = (int) (Math.random() * qs.size());
-		int count = 0;
-
-		while (count++ < qs.size() && qs.get(i).getDone()) {
-			i = (i + 1) % qs.size();
-		}
-
-		if (count >= qs.size()) {
-			return null;
-		}
-
-		currentQuestion = qs.get(i);
-		currentQuestion.done();
-		resetPenalties();
-		currentTeam = -1;
-		update();
-		releaseBuzzer();
-
-		return currentQuestion;
-	}
-
-	public Question getCurrentQuestion() {
-		return currentQuestion;
-	}
-
-	public void showAnswer(Answer a) {
-		a.done();
-		update();
-	}
-
-	public void guessedAnswer(Answer a, int player) {
-		if (!a.getDone()) {
-			teams.get(player - 1).addPoints(a.getAmount());
-			a.done();
-		}
-		currentTeam = -1;
-		update();
-	}
-
-	public void endGame() {
-		finished = true;
-		update();
-	}
-
 	public boolean isFinished() {
 		return finished;
 	}
+        
+        public void setFinished(boolean finished) {
+               this.finished = finished;
+
+               setChanged();
+               notifyObservers(this);
+        }
 
 	public List<Team> getWinner() {
 		List<Team> winners = new ArrayList<Team>();
@@ -210,48 +125,5 @@ public class Game extends Observable implements Observer{
 		}
 
 		return winners;
-	}
-
-	private class ReleaseTimer extends Thread {
-
-		@Override
-		public void run() {
-			try {
-				Game.this.gw.showTimer("Get ready!<br>3");
-				Thread.sleep(1000);
-				Game.this.gw.showTimer("Get ready!<br>2");
-				Thread.sleep(1000);
-				Game.this.gw.showTimer("Get ready!<br>1");
-				Thread.sleep(1000);
-			} catch (InterruptedException ex) {
-			}
-
-			releaseTimer = null;
-			bh.release();
-			update();
-		}
-	};
-	ReleaseTimer releaseTimer;
-
-	public void releaseBuzzer() {
-		if (currentTeam >= 0) {
-			this.getTeams().get(currentTeam).addPenalty();
-			currentTeam = -1;
-			this.gw.redraw();
-			boolean endQuestion = true;
-			for (Team t : this.getTeams()) {
-				if (t.getPenalty() < this.getCurrentQuestion().getAnswers().size()) {
-					endQuestion = false;
-					break;
-				}
-			}
-			if (endQuestion) {
-				return;
-			}
-		}
-		if (releaseTimer == null) {
-			releaseTimer = new ReleaseTimer();
-			releaseTimer.start();
-		}
 	}
 }

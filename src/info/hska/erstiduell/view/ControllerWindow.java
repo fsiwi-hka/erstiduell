@@ -6,6 +6,7 @@
 package info.hska.erstiduell.view;
 
 import info.hska.erstiduell.Game;
+import info.hska.erstiduell.Controller;
 import info.hska.erstiduell.buzzer.BuzzerHandler;
 import info.hska.erstiduell.Mouse;
 import info.hska.erstiduell.buzzer.BuzzerEventQueue;
@@ -31,15 +32,18 @@ import javax.swing.event.ChangeListener;
 public final class ControllerWindow extends javax.swing.JFrame implements Observer {
 
 	private Game game;
+        private Controller controller;
 	private JButton[] teamButtons;
 
 	/** Creates new form ControllerWindow 
          * 
          * @param game the game object it gets its data from
+         * @param controller the controller that controls it
          */
         
-	public ControllerWindow(Game game) {
+	public ControllerWindow(Game game, Controller controller) {
                 this.game = game;
+                this.controller = controller;
 		initComponents();
 		progressBar.setMaximum(QuestionLibrary.getInstance().getQuestionAmount());
               
@@ -61,8 +65,8 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
 		points3.getModel().setValue(game.getPoint(3));
 		points4.getModel().setValue(game.getPoint(4));
 
-		if (game.getCurrentPlayer() != 0) {
-			buzzers.setText("Release Buzzers [" + game.getCurrentPlayer() + "]");
+		if (game.getCurrentTeam() != 0) {
+			buzzers.setText("Release Buzzers [" + game.getCurrentTeam() + "]");
 		} else {
 			buzzers.setText("Release Buzzers");
 		}
@@ -70,7 +74,7 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
 
 		for (int i = 0; i < this.game.getTeams().size(); i++) {
 			teamButtons[i].setText("<html><b><font color='"
-					+ (game.getCurrentPlayer() == i + 1 ? "red" : "black")
+					+ (game.getCurrentTeam() == i + 1 ? "red" : "black")
 					+ "'>"
 					+ this.game.getTeams().get(i).getName()
 					+ "</font></b></html>");
@@ -152,7 +156,7 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
 
             public void actionPerformed(ActionEvent e) {
                 if(gameQuestions.getSelectedIndex() > 0) {
-                    game.nextQuestion((Question)gameQuestions.getSelectedItem());
+                    controller.nextQuestion((Question)gameQuestions.getSelectedItem());
                 }
             }
         });
@@ -251,7 +255,7 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
 
             public void actionPerformed(ActionEvent e) {
                 if(answers.getSelectedValue() != null)
-                game.showAnswer((Answer)answers.getSelectedValue());
+                controller.showAnswer((Answer)answers.getSelectedValue());
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -339,7 +343,7 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
 
             @Override
             public void stateChanged(ChangeEvent e) {
-                game.setPoints(1, (Integer)points1.getValue());
+                controller.setPoints(1, (Integer)points1.getValue());
             }
 
         });
@@ -356,7 +360,7 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
 
             @Override
             public void stateChanged(ChangeEvent e) {
-                game.setPoints(2, (Integer)points2.getValue());
+                controller.setPoints(2, (Integer)points2.getValue());
             }
 
         });
@@ -376,7 +380,7 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
 
             @Override
             public void stateChanged(ChangeEvent e) {
-                game.setPoints(3, (Integer)points3.getValue());
+                controller.setPoints(3, (Integer)points3.getValue());
             }
 
         });
@@ -396,7 +400,7 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
 
             @Override
             public void stateChanged(ChangeEvent e) {
-                game.setPoints(4, (Integer)points4.getValue());
+                controller.setPoints(4, (Integer)points4.getValue());
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -517,7 +521,7 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
     private void showWinnerActionPerformed(java.awt.event.ActionEvent evt) {
         if (JOptionPane.showConfirmDialog(this, "This will be irreversible. Still do it?",
                 "End Game?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
-            game.endGame();
+            controller.endGame();
         }
     }
 
@@ -533,7 +537,7 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
     
     
     private void nextQuestionActionPerformed(java.awt.event.ActionEvent evt) {
-        game.nextQuestion();
+        controller.nextQuestion();
     }
 
     public void answersValueChanged(javax.swing.event.ListSelectionEvent evt) {
@@ -576,7 +580,7 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
 
     public void buzzersActionPerformed(java.awt.event.ActionEvent evt) {
         buzzers.setEnabled(false);
-        game.releaseBuzzer();
+        controller.releaseBuzzer();
     }
 
     public void changedName(java.awt.event.FocusEvent evt) {
@@ -600,13 +604,13 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
                     game.getTeams().get(team).setName(src.getText());
                     BuzzerEventQueue.getInstance().setEnabled(!getTeamNames()[0].isEnabled() && !getTeamNames()[1].isEnabled()
                                     && !getTeamNames()[2].isEnabled() && !getTeamNames()[3].isEnabled());
-                    game.update();
+                    controller.update();
             }
     }
         
     private void answer(int player) {
         if (answers.getSelectedValue() != null) {
-                game.guessedAnswer((Answer) answers.getSelectedValue(), player);
+                controller.guessedAnswer((Answer) answers.getSelectedValue(), player);
         }
     }
     private javax.swing.JPanel answerPanel;

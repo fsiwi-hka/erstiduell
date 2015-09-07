@@ -12,7 +12,7 @@
 package info.hska.erstiduell.view;
 
 import info.hska.erstiduell.Config;
-import info.hska.erstiduell.Game;
+import info.hska.erstiduell.Controller;
 import info.hska.erstiduell.buzzer.Key;
 import info.hska.erstiduell.questions.QuestionLibrary;
 import java.awt.Color;
@@ -35,18 +35,21 @@ import javax.swing.filechooser.FileFilter;
  */
 public final class ConfigWindow extends javax.swing.JFrame {
 
-	private Game game;
+	private Controller controller;
 	private Key[] hotkeys = new Key[4];
 
     /** Creates new form ConfigWindow2 */
-    public ConfigWindow(Game game) {
-		this.game = game;
+    public ConfigWindow(Controller controller) {
+		this.controller = controller;
                 hotkeys[0] = new Key(85, 1, "U");
                 hotkeys[1] = new Key(73, 1, "I");
                 hotkeys[2] = new Key(65, 1, "A");
                 hotkeys[3] = new Key(69, 1, "E");
                 initComponents();
 		updateErrors();
+                
+                this.setLocationByPlatform(true);
+                this.setVisible(true);
     }
 
 
@@ -306,7 +309,7 @@ public final class ConfigWindow extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         getContentPane().add(ok, gridBagConstraints);
         // automatically load demo questions for easy testing
-        if (false) {
+        if (true) {
            loadQuestions(new File("./demo_questions.qes"));
         }
         pack();
@@ -403,7 +406,7 @@ public final class ConfigWindow extends javax.swing.JFrame {
 
 			System.arraycopy(this.hotkeys, 0, hotkeys, 0, hotkeys.length);
 
-			game.configured(new Config(
+			controller.configured(new Config(
 					(Integer)amountPlayers.getValue(),
 					(GraphicsDevice)outputMonitor.getSelectedItem(),
 					new Color((Integer)fR.getValue(), (Integer)fG.getValue(), (Integer)fB.getValue()),
