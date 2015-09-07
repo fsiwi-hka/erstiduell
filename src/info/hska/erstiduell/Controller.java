@@ -65,10 +65,9 @@ public class Controller implements Observer {
 
         update();
         gw.showBuzzer(bh.getCurrentTeam());
-
     }
 
-    public void update() {
+    private void update() {
         cw.refresh();
         gw.redraw();
     }

@@ -7,7 +7,6 @@ package info.hska.erstiduell.view;
 
 import info.hska.erstiduell.Game;
 import info.hska.erstiduell.Controller;
-import info.hska.erstiduell.buzzer.BuzzerHandler;
 import info.hska.erstiduell.Mouse;
 import info.hska.erstiduell.buzzer.BuzzerEventQueue;
 import info.hska.erstiduell.questions.Answer;
@@ -32,8 +31,8 @@ import javax.swing.event.ChangeListener;
 public final class ControllerWindow extends javax.swing.JFrame implements Observer {
 
     private Game game;
-    private Controller controller;
-    private JButton[] teamButtons;
+    private final Controller controller;
+    private final JButton[] teamButtons;
 
     /**
      * Creates new form ControllerWindow
@@ -80,19 +79,15 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
                     + this.game.getTeams().get(i).getName()
                     + "</font></b></html>");
         }
-        if (gameQuestions.getItemCount() > 0) {
-            gameQuestions.removeAll();
-            gameQuestions.removeAllItems();
-        }
-        answers.removeAll();
 
+        answers.removeAll();
+        
+        
         //System.out.println(game.getQuestions().getQuestionAmount());
         if (game.getCurrentQuestion() != null) {
-            gameQuestions.addItem(new Question("[Choose Question]"));
-            //for (Question q : QuestionLibrary.getInstance().getAllQuestions()) {
-            for (Question q : game.getQuestions().getAllQuestions()) {
-                gameQuestions.addItem(q);
-            }
+            
+            renewQuestions();
+
             question.setText(game.getCurrentQuestion().getQuestionText());
 
             answers.setModel(new AbstractListModel() {
@@ -111,6 +106,17 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
         progressBar.setString(answered
                 + "/" + QuestionLibrary.getInstance().getQuestionAmount());
         progressBar.setValue(answered);
+    }
+
+    private synchronized void renewQuestions() {
+        gameQuestions.removeAll();
+        gameQuestions.removeAllItems();
+
+        gameQuestions.addItem(new Question("[Choose Question]"));
+        //for (Question q : QuestionLibrary.getInstance().getAllQuestions()) {
+        for (Question q : game.getQuestions().getAllQuestions()) {
+            gameQuestions.addItem(q);
+        }
     }
 
     // <editor-fold defaultstate="collapsed">
@@ -597,7 +603,8 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
             game.getTeams().get(team).setName(src.getText());
             BuzzerEventQueue.getInstance().setEnabled(!getTeamNames()[0].isEnabled() && !getTeamNames()[1].isEnabled()
                     && !getTeamNames()[2].isEnabled() && !getTeamNames()[3].isEnabled());
-            controller.update();
+            refresh();
+            //TODO make changes instant again
         }
     }
 
