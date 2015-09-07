@@ -8,7 +8,6 @@
  *
  * Created on 12.03.2011, 21:55:44
  */
-
 package info.hska.erstiduell.view;
 
 import info.hska.erstiduell.Config;
@@ -35,26 +34,27 @@ import javax.swing.filechooser.FileFilter;
  */
 public final class ConfigWindow extends javax.swing.JFrame {
 
-	private Controller controller;
-	private Key[] hotkeys = new Key[4];
+    private Controller controller;
+    private Key[] hotkeys = new Key[4];
 
-    /** Creates new form ConfigWindow2 */
+    /**
+     * Creates new form ConfigWindow2
+     */
     public ConfigWindow(Controller controller) {
-		this.controller = controller;
-                hotkeys[0] = new Key(85, 1, "U");
-                hotkeys[1] = new Key(73, 1, "I");
-                hotkeys[2] = new Key(65, 1, "A");
-                hotkeys[3] = new Key(69, 1, "E");
-                initComponents();
-		updateErrors();
-                
-                this.setLocationByPlatform(true);
-                this.setVisible(true);
+        this.controller = controller;
+        hotkeys[0] = new Key(85, 1, "U");
+        hotkeys[1] = new Key(73, 1, "I");
+        hotkeys[2] = new Key(65, 1, "A");
+        hotkeys[3] = new Key(69, 1, "E");
+        initComponents();
+        updateErrors();
+
+        this.setLocationByPlatform(true);
+        this.setVisible(true);
     }
 
-
-    /** This method is called from within the constructor to
-     * initialize the form.
+    /**
+     * This method is called from within the constructor to initialize the form.
      */
     @SuppressWarnings("unchecked")
     private void initComponents() {
@@ -154,15 +154,17 @@ public final class ConfigWindow extends javax.swing.JFrame {
         amountPlayers.addChangeListener(new ChangeListener() {
 
             public void stateChanged(ChangeEvent e) {
-                if((Integer)amountPlayers.getValue() < 4)
-                input4.setEnabled(false);
-                else
-                input4.setEnabled(true);
+                if ((Integer) amountPlayers.getValue() < 4) {
+                    input4.setEnabled(false);
+                } else {
+                    input4.setEnabled(true);
+                }
 
-                if((Integer)amountPlayers.getValue() < 3)
-                input3.setEnabled(false);
-                else
-                input3.setEnabled(true);
+                if ((Integer) amountPlayers.getValue() < 3) {
+                    input3.setEnabled(false);
+                } else {
+                    input3.setEnabled(true);
+                }
 
                 updateErrors();
             }
@@ -310,186 +312,186 @@ public final class ConfigWindow extends javax.swing.JFrame {
         getContentPane().add(ok, gridBagConstraints);
         // automatically load demo questions for easy testing
         if (true) {
-           loadQuestions(new File("./demo_questions.qes"));
+            loadQuestions(new File("./demo_questions.qes"));
         }
         pack();
     }
 
     void teamInitialize(javax.swing.JLabel label, JToggleButton input, final int teamNo) {
-            label.setText("Team " + teamNo );
-            java.awt.GridBagConstraints gridBagConstraints = new java.awt.GridBagConstraints();
-            if (hotkeys[teamNo - 1] != null) {
-                input.setText(hotkeys[teamNo - 1].toString());
-            }else {
-                input.setText("[Assign key]");
+        label.setText("Team " + teamNo);
+        java.awt.GridBagConstraints gridBagConstraints = new java.awt.GridBagConstraints();
+        if (hotkeys[teamNo - 1] != null) {
+            input.setText(hotkeys[teamNo - 1].toString());
+        } else {
+            input.setText("[Assign key]");
+        }
+        if (((Integer) amountPlayers.getValue()) < teamNo) {
+            input.setEnabled(false);
+        }
+        input.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                inputActionPerformed(evt);
             }
-            if (((Integer) amountPlayers.getValue()) < teamNo) {
-                input.setEnabled(false);
+        });
+        input.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                inputFocusLost(evt, teamNo);
             }
-            input.addActionListener(new java.awt.event.ActionListener() {
-                public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    inputActionPerformed(evt);
-                }
-            });
-            input.addFocusListener(new java.awt.event.FocusAdapter() {
-                public void focusLost(java.awt.event.FocusEvent evt) {
-                    inputFocusLost(evt, teamNo);
-                }
-            });
-            input.addKeyListener(new java.awt.event.KeyAdapter() {
-                public void keyPressed(java.awt.event.KeyEvent evt) {
-                    inputKeyPressed(evt, teamNo);
-                }
-            });
-            gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-            gridBagConstraints.weightx = 1.0;
-            gridBagConstraints.gridx = 0;
-            gridBagConstraints.gridy = teamNo - 1;
-            gridBagConstraints.insets = new java.awt.Insets(2, 5, 2, 5);
-            inputSettings.add(input, gridBagConstraints);
+        });
+        input.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                inputKeyPressed(evt, teamNo);
+            }
+        });
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = teamNo - 1;
+        gridBagConstraints.insets = new java.awt.Insets(2, 5, 2, 5);
+        inputSettings.add(input, gridBagConstraints);
+    }
+
+    private void loadQuestionsActionPerformed(java.awt.event.ActionEvent evt) {
+        JFileChooser fc = new JFileChooser();
+        File workingDirectory = new File(System.getProperty("user.dir"));
+        fc.setCurrentDirectory(workingDirectory);
+        fc.setFileFilter(new FileFilter() {
+
+            @Override
+            public boolean accept(File f) {
+                return f.getName().endsWith(".qes") || f.isDirectory();
+            }
+
+            @Override
+            public String getDescription() {
+                return "Question Library (.qes)";
+            }
+        });
+
+        fc.showDialog(this, "Load");
+        loadQuestions(fc.getSelectedFile());
+
+    }
+
+    private void loadQuestions(File input) {
+        if (input == null) {
+            return;
         }
 
+        try {
+            QuestionLibrary.loadQuestions(input);
+        } catch (Exception ex) {
 
-	private void loadQuestionsActionPerformed(java.awt.event.ActionEvent evt) {
-		JFileChooser fc = new JFileChooser();
-		File workingDirectory = new File(System.getProperty("user.dir"));
-		fc.setCurrentDirectory(workingDirectory);
-		fc.setFileFilter(new FileFilter() {
-
-			@Override
-			public boolean accept(File f) {
-				return f.getName().endsWith(".qes") || f.isDirectory();
-			}
-
-			@Override
-			public String getDescription() {
-				return "Question Library (.qes)";
-			}
-		});
-
-		fc.showDialog(this, "Load");
-                loadQuestions(fc.getSelectedFile());
-                
-            
-            
+            for (StackTraceElement el : ex.getStackTrace()) {
+                System.out.println(el.getFileName() + " " + el.getMethodName() + ":" + el.getLineNumber());
+            }
+            JOptionPane.showMessageDialog(this,
+                    "Could not read question library correctly:\n\n"
+                    + "[" + ex.getClass().getSimpleName() + "]\n"
+                    + ((ex.getMessage() == null) ? "" : ex.getMessage()),
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            return;
         }
-        
-        private void loadQuestions(File input){
-                if (input == null) return;
 
-		try {
-			QuestionLibrary.loadQuestions(input);
-		} catch (Exception ex) {
+        questionLabel.setText(String.valueOf(QuestionLibrary.getInstance()
+                .getQuestionAmount()) + " questions");
+        questionFile.setText(input.getAbsolutePath());
 
-			for(StackTraceElement el : ex.getStackTrace())
-				System.out.println(el.getFileName() + " " + el.getMethodName() + ":" + el.getLineNumber());
-			JOptionPane.showMessageDialog(this,
-					"Could not read question library correctly:\n\n"
-					+ "[" + ex.getClass().getSimpleName() + "]\n"
-					+ ((ex.getMessage() == null) ? "" : ex.getMessage()),
-					"Error", JOptionPane.ERROR_MESSAGE);
-			return;
-		}
+        updateErrors();
 
-		questionLabel.setText(String.valueOf(QuestionLibrary.getInstance()
-				.getQuestionAmount()) + " questions");
-		questionFile.setText(input.getAbsolutePath());
+    }
 
-		updateErrors();
+    private void okActionPerformed(java.awt.event.ActionEvent evt) {
+        if (!error.isVisible()) {
 
-	}
+            Key[] hotkeys = new Key[(Integer) amountPlayers.getValue()];
 
-	private void okActionPerformed(java.awt.event.ActionEvent evt) {
-		if(!error.isVisible()) {
+            System.arraycopy(this.hotkeys, 0, hotkeys, 0, hotkeys.length);
 
-			Key[] hotkeys = new Key[(Integer)amountPlayers.getValue()];
+            controller.configured(new Config(
+                    (Integer) amountPlayers.getValue(),
+                    (GraphicsDevice) outputMonitor.getSelectedItem(),
+                    new Color((Integer) fR.getValue(), (Integer) fG.getValue(), (Integer) fB.getValue()),
+                    new Color((Integer) bR.getValue(), (Integer) bG.getValue(), (Integer) bB.getValue()),
+                    hotkeys
+            ));
+            setVisible(false);
+            dispose();
+        }
+    }
 
-			System.arraycopy(this.hotkeys, 0, hotkeys, 0, hotkeys.length);
+    private void inputActionPerformed(java.awt.event.ActionEvent evt) {
+        JToggleButton input = (JToggleButton) evt.getSource();
+        input.setSelected(true);
+        input.setText("[Press key now]");
+    }
 
-			controller.configured(new Config(
-					(Integer)amountPlayers.getValue(),
-					(GraphicsDevice)outputMonitor.getSelectedItem(),
-					new Color((Integer)fR.getValue(), (Integer)fG.getValue(), (Integer)fB.getValue()),
-					new Color((Integer)bR.getValue(), (Integer)bG.getValue(), (Integer)bB.getValue()),
-					hotkeys
-				));
-			setVisible(false);
-			dispose();
-		}
-	}
+    private void inputKeyPressed(KeyEvent evt, int player) {
+        JToggleButton input = (JToggleButton) evt.getSource();
+        if (input.isSelected()) {
+            hotkeys[player - 1] = new Key(evt);
+            input.setText(hotkeys[player - 1].toString());
+            input.setSelected(false);
+            updateErrors();
+        }
+    }
 
-	private void inputActionPerformed(java.awt.event.ActionEvent evt) {
-		JToggleButton input = (JToggleButton)evt.getSource();
-		input.setSelected(true);
-		input.setText("[Press key now]");
-	}
+    private void inputFocusLost(FocusEvent evt, int player) {
+        JToggleButton bt = ((JToggleButton) evt.getSource());
+        bt.setSelected(false);
+        if (hotkeys[player - 1] == null) {
+            bt.setText("[Assign key]");
+        } else {
+            bt.setText(hotkeys[player - 1].toString());
+        }
+    }
 
-	private void inputKeyPressed(KeyEvent evt, int player) {
-		JToggleButton input = (JToggleButton)evt.getSource();
-		if(input.isSelected()) {
-			hotkeys[player - 1] = new Key(evt);
-			input.setText(hotkeys[player - 1].toString());
-			input.setSelected(false);
-			updateErrors();
-		}
-	}
+    private void updateErrors() {
+        ok.setEnabled(true);
+        StringBuilder str = new StringBuilder("<html><body>Errors:");
 
-	private void inputFocusLost(FocusEvent evt, int player) {
-		JToggleButton bt = ((JToggleButton)evt.getSource());
-		bt.setSelected(false);
-		if(hotkeys[player - 1] == null) {
-			bt.setText("[Assign key]");
-		} else {
-			bt.setText(hotkeys[player - 1].toString());
-		}
-	}
+        if (QuestionLibrary.getInstance() == null) {
+            ok.setEnabled(false);
+            str.append("<br>You must load a question library.");
+        }
 
-	private void updateErrors() {
-		ok.setEnabled(true);
-		StringBuilder str = new StringBuilder("<html><body>Errors:");
+        int players = (Integer) amountPlayers.getValue();
 
-		if(QuestionLibrary.getInstance() == null) {
-			ok.setEnabled(false);
-			str.append("<br>You must load a question library.");
-		}
+        if (hotkeys[0] == null || hotkeys[1] == null
+                || (players >= 3 && hotkeys[2] == null)
+                || (players >= 4 && hotkeys[3] == null)) {
+            str.append("<br>You must assign a key for every player.");
+            ok.setEnabled(false);
+        }
 
-		int players = (Integer)amountPlayers.getValue();
+        Set set = new HashSet();
+        for (Key k : hotkeys) {
+            if (k != null) {
+                if (set.contains(k)) {
+                    ok.setEnabled(false);
+                    str.append("<br>Each player must have a different key.");
+                    break;
+                } else {
+                    set.add(k);
+                }
+            }
+        }
 
-		if(hotkeys[0] == null || hotkeys[1] == null
-				|| (players >= 3 && hotkeys[2] == null)
-				|| (players >= 4 && hotkeys[3] == null)) {
-			str.append("<br>You must assign a key for every player.");
-			ok.setEnabled(false);
-		}
+        if (!ok.isEnabled()) {
+            error.setText(str.toString());
+            error.setVisible(true);
+        } else {
+            error.setVisible(false);
+        }
 
-		Set set = new HashSet();
-		for(Key k : hotkeys) {
-			if(k != null)
-				if(set.contains(k)) {
-					ok.setEnabled(false);
-					str.append("<br>Each player must have a different key.");
-					break;
-				} else {
-					set.add(k);
-				}
-		}
+    }
 
-		if(!ok.isEnabled()) {
-			error.setText(str.toString());
-			error.setVisible(true);
-		} else {
-			error.setVisible(false);
-		}
-
-	}
-
-	public void setMonitors(GraphicsDevice[] devices) {
-	   outputMonitor.removeAllItems();
-	   for(GraphicsDevice d : devices) {
-		   outputMonitor.addItem(d);
-	   }
-	}
-
+    public void setMonitors(GraphicsDevice[] devices) {
+        outputMonitor.removeAllItems();
+        for (GraphicsDevice d : devices) {
+            outputMonitor.addItem(d);
+        }
+    }
 
     private javax.swing.JSpinner amountPlayers;
     private javax.swing.JSpinner bB;

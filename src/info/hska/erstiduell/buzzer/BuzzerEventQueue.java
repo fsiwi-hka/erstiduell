@@ -11,12 +11,12 @@ import java.awt.event.KeyEvent;
 
 /**
  * Singleton Event Queue
+ *
  * @author Moritz Grimm
  */
 public final class BuzzerEventQueue extends EventQueue {
 
     private static BuzzerEventQueue instance;
-
 
     public static void setKeys(Key[] hotkeys, BuzzerHandler bh) {
         instance = new BuzzerEventQueue(hotkeys, bh);
@@ -38,6 +38,7 @@ public final class BuzzerEventQueue extends EventQueue {
         this.enabled = true;
         this.bh = bh;
     }
+
     public void setController(BuzzerHandler bh) {
         this.bh = bh;
     }
@@ -45,20 +46,20 @@ public final class BuzzerEventQueue extends EventQueue {
     @Override
     protected void dispatchEvent(AWTEvent e) {
 
-        if(enabled && e instanceof KeyEvent) {
+        if (enabled && e instanceof KeyEvent) {
 
-            KeyEvent evt = (KeyEvent)e;
+            KeyEvent evt = (KeyEvent) e;
 
-                for(int i = 0; i < hotkeys.length; i++) {
-                    if(hotkeys[i].equals(new Key(evt))) {
+            for (int i = 0; i < hotkeys.length; i++) {
+                if (hotkeys[i].equals(new Key(evt))) {
 
-                        player = i + 1;
+                    player = i + 1;
 
-                        bh.setSuccessfulBuzz(player);
+                    bh.setSuccessfulBuzz(player);
 
-                        break;
-                    }
+                    break;
                 }
+            }
 
             return;
         }
@@ -66,10 +67,10 @@ public final class BuzzerEventQueue extends EventQueue {
     }
 
     public int getBuzzerPlayer() {
-            return player;
+        return player;
     }
 
     public void setEnabled(boolean enabled) {
-            this.enabled = enabled;
+        this.enabled = enabled;
     }
 }

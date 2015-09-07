@@ -5,11 +5,14 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 /**
- * Implements MouseListener 
+ * Implements MouseListener
+ *
  * @author Moritz Grimm
  */
 public class Mouse implements MouseListener {
+
     ControllerWindow cw;
+
     public Mouse(ControllerWindow cw) {
         this.cw = cw;
     }
@@ -29,5 +32,5 @@ public class Mouse implements MouseListener {
 
     public void mouseExited(MouseEvent e) {
     }
-    
+
 }

@@ -6,8 +6,8 @@ package info.hska.erstiduell.questions;
  */
 public class QuestionLibraryException extends Exception {
 
-	public QuestionLibraryException(String msg) {
-		super(msg);
-	}
+    public QuestionLibraryException(String msg) {
+        super(msg);
+    }
 
 }

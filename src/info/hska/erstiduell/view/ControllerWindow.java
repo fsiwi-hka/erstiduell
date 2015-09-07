@@ -31,88 +31,88 @@ import javax.swing.event.ChangeListener;
  */
 public final class ControllerWindow extends javax.swing.JFrame implements Observer {
 
-	private Game game;
-        private Controller controller;
-	private JButton[] teamButtons;
+    private Game game;
+    private Controller controller;
+    private JButton[] teamButtons;
 
-	/** Creates new form ControllerWindow 
-         * 
-         * @param game the game object it gets its data from
-         * @param controller the controller that controls it
-         */
-        
-	public ControllerWindow(Game game, Controller controller) {
-                this.game = game;
-                this.controller = controller;
-		initComponents();
-		progressBar.setMaximum(QuestionLibrary.getInstance().getQuestionAmount());
-              
-		this.teamButtons = new JButton[] { teams[0], teams[1], teams[2], teams[3] };
-                
-                this.setLocationByPlatform(true);
-                this.setVisible(true);
-                
+    /**
+     * Creates new form ControllerWindow
+     *
+     * @param game the game object it gets its data from
+     * @param controller the controller that controls it
+     */
+    public ControllerWindow(Game game, Controller controller) {
+        this.game = game;
+        this.controller = controller;
+        initComponents();
+        progressBar.setMaximum(QuestionLibrary.getInstance().getQuestionAmount());
+
+        this.teamButtons = new JButton[]{teams[0], teams[1], teams[2], teams[3]};
+
+        this.setLocationByPlatform(true);
+        this.setVisible(true);
+
+    }
+
+    public void update(Observable game, Object o) {
+        this.game = (Game) o;
+        refresh();
+    }
+
+    public void refresh() {
+
+        points1.getModel().setValue(game.getPoint(1));
+        points2.getModel().setValue(game.getPoint(2));
+        points3.getModel().setValue(game.getPoint(3));
+        points4.getModel().setValue(game.getPoint(4));
+
+        if (game.getCurrentTeam() != 0) {
+            buzzers.setText("Release Buzzers [" + game.getCurrentTeam() + "]");
+        } else {
+            buzzers.setText("Release Buzzers");
         }
-        public void update(Observable game, Object o) {
-            this.game = (Game) o;
-            refresh();
+        buzzers.setEnabled(game.areBuzzersBlocked());
+
+        for (int i = 0; i < this.game.getTeams().size(); i++) {
+            teamButtons[i].setText("<html><b><font color='"
+                    + (game.getCurrentTeam() == i + 1 ? "red" : "black")
+                    + "'>"
+                    + this.game.getTeams().get(i).getName()
+                    + "</font></b></html>");
         }
-        
-	public void refresh() {
+        if (gameQuestions.getItemCount() > 0) {
+            gameQuestions.removeAll();
+            gameQuestions.removeAllItems();
+        }
+        answers.removeAll();
 
-		points1.getModel().setValue(game.getPoint(1));
-		points2.getModel().setValue(game.getPoint(2));
-		points3.getModel().setValue(game.getPoint(3));
-		points4.getModel().setValue(game.getPoint(4));
+        //System.out.println(game.getQuestions().getQuestionAmount());
+        if (game.getCurrentQuestion() != null) {
+            gameQuestions.addItem(new Question("[Choose Question]"));
+            //for (Question q : QuestionLibrary.getInstance().getAllQuestions()) {
+            for (Question q : game.getQuestions().getAllQuestions()) {
+                gameQuestions.addItem(q);
+            }
+            question.setText(game.getCurrentQuestion().getQuestionText());
 
-		if (game.getCurrentTeam() != 0) {
-			buzzers.setText("Release Buzzers [" + game.getCurrentTeam() + "]");
-		} else {
-			buzzers.setText("Release Buzzers");
-		}
-		buzzers.setEnabled(game.areBuzzersBlocked());
+            answers.setModel(new AbstractListModel() {
 
-		for (int i = 0; i < this.game.getTeams().size(); i++) {
-			teamButtons[i].setText("<html><b><font color='"
-					+ (game.getCurrentTeam() == i + 1 ? "red" : "black")
-					+ "'>"
-					+ this.game.getTeams().get(i).getName()
-					+ "</font></b></html>");
-		}
-                if (gameQuestions.getItemCount() > 0) {
-                    gameQuestions.removeAll();
-                    gameQuestions.removeAllItems();
+                public int getSize() {
+                    return game.getCurrentQuestion().getAnswers().size();
                 }
-                answers.removeAll();
-             
-                //System.out.println(game.getQuestions().getQuestionAmount());
-               
-		if (game.getCurrentQuestion() != null) {
 
-                    gameQuestions.addItem(new Question("[Choose Question]"));
-                    for (Question q : QuestionLibrary.getInstance().getAllQuestions()) {
-                        gameQuestions.addItem(q);
-                    }
-                    question.setText(game.getCurrentQuestion().getQuestionText());
+                public Object getElementAt(int index) {
+                    return game.getCurrentQuestion().getAnswers().get(index);
+                }
+            });
+        }
+        int answered = QuestionLibrary.getInstance().getDoneQuestions();
 
-                    answers.setModel(new AbstractListModel() {
+        progressBar.setString(answered
+                + "/" + QuestionLibrary.getInstance().getQuestionAmount());
+        progressBar.setValue(answered);
+    }
 
-                        public int getSize() {
-                            return game.getCurrentQuestion().getAnswers().size();
-                        }
-
-                        public Object getElementAt(int index) {
-                            return game.getCurrentQuestion().getAnswers().get(index);
-                        }
-                    });         
-		}
-                int answered = QuestionLibrary.getInstance().getDoneQuestions();
-                
-		progressBar.setString(answered
-				+ "/" + QuestionLibrary.getInstance().getQuestionAmount());
-		progressBar.setValue(answered);
-	}
-	
     // <editor-fold defaultstate="collapsed">
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
@@ -144,7 +144,7 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
 
         //setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        
+
         setTitle("Quizduell Controller");
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
@@ -155,12 +155,12 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
         gameQuestions.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
-                if(gameQuestions.getSelectedIndex() > 0) {
-                    controller.nextQuestion((Question)gameQuestions.getSelectedItem());
+                if (gameQuestions.getSelectedIndex() > 0) {
+                    controller.nextQuestion((Question) gameQuestions.getSelectedItem());
                 }
             }
         });
-        
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -198,7 +198,7 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 10);
         getContentPane().add(chooseQuestionPanel, gridBagConstraints);
 
-        question.setFont(new java.awt.Font("Liberation Sans", 1, 15)); 
+        question.setFont(new java.awt.Font("Liberation Sans", 1, 15));
         question.setText(" ");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -254,8 +254,9 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
         show.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
-                if(answers.getSelectedValue() != null)
-                controller.showAnswer((Answer)answers.getSelectedValue());
+                if (answers.getSelectedValue() != null) {
+                    controller.showAnswer((Answer) answers.getSelectedValue());
+                }
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -267,18 +268,18 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
         gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 2);
         answerPanel.add(show, gridBagConstraints);
 
-        for (int i = 0; i < 4; i++){
+        for (int i = 0; i < 4; i++) {
             teams[i].setText("T" + (i + 1));
             teams[i].setEnabled(false);
-            if (game.getNumberOfPlayers() <= i){
+            if (game.getNumberOfPlayers() <= i) {
                 teams[i].setVisible(false);
             }
         }
-         teams[0].addActionListener(new java.awt.event.ActionListener() {
-                public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    team1ActionPerformed(evt);
-                }
-            });
+        teams[0].addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                team1ActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
@@ -338,12 +339,12 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
         pointPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Points"));
         pointPanel.setLayout(new java.awt.GridBagLayout());
 
-        points1.setModel(new javax.swing.SpinnerNumberModel (0, 0, null, 1));
+        points1.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
         points1.addChangeListener(new ChangeListener() {
 
             @Override
             public void stateChanged(ChangeEvent e) {
-                controller.setPoints(1, (Integer)points1.getValue());
+                controller.setPoints(1, (Integer) points1.getValue());
             }
 
         });
@@ -360,7 +361,7 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
 
             @Override
             public void stateChanged(ChangeEvent e) {
-                controller.setPoints(2, (Integer)points2.getValue());
+                controller.setPoints(2, (Integer) points2.getValue());
             }
 
         });
@@ -372,7 +373,7 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
         gridBagConstraints.insets = new java.awt.Insets(2, 5, 2, 5);
         pointPanel.add(points2, gridBagConstraints);
 
-        if(game.getNumberOfPlayers() < 3){
+        if (game.getNumberOfPlayers() < 3) {
             points3.setEnabled(false);
         }
         points3.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
@@ -380,7 +381,7 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
 
             @Override
             public void stateChanged(ChangeEvent e) {
-                controller.setPoints(3, (Integer)points3.getValue());
+                controller.setPoints(3, (Integer) points3.getValue());
             }
 
         });
@@ -392,7 +393,7 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
         gridBagConstraints.insets = new java.awt.Insets(2, 5, 2, 5);
         pointPanel.add(points3, gridBagConstraints);
 
-        if(game.getNumberOfPlayers() < 4){
+        if (game.getNumberOfPlayers() < 4) {
             points4.setEnabled(false);
         }
         points4.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
@@ -400,7 +401,7 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
 
             @Override
             public void stateChanged(ChangeEvent e) {
-                controller.setPoints(4, (Integer)points4.getValue());
+                controller.setPoints(4, (Integer) points4.getValue());
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -414,7 +415,7 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
         teamNames[0].setText("T1");
         teamNames[0].setEnabled(false);
         teamNames[0].addMouseListener(new Mouse(this));
-        
+
         teamNames[0].addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 changedName(evt);
@@ -501,21 +502,20 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
         pack();
     }// </editor-fold>
 
-
     public void team1ActionPerformed(java.awt.event.ActionEvent evt) {
-            answer(1);
+        answer(1);
     }
 
     public void team2ActionPerformed(java.awt.event.ActionEvent evt) {
-            answer(2);
+        answer(2);
     }
 
     public void team3ActionPerformed(java.awt.event.ActionEvent evt) {
-            answer(3);
+        answer(3);
     }
 
     public void team4ActionPerformed(java.awt.event.ActionEvent evt) {
-            answer(4);
+        answer(4);
     }
 
     private void showWinnerActionPerformed(java.awt.event.ActionEvent evt) {
@@ -527,22 +527,18 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
 
     private void exitButtonActionPerformed(java.awt.event.ActionEvent evt) {
         if (game.isFinished() || JOptionPane.showConfirmDialog(this, "Do you want to exit the game?",
-                        "Exiting?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
+                "Exiting?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
             System.exit(0);
         }
     }
 
-    
-    
-    
-    
     private void nextQuestionActionPerformed(java.awt.event.ActionEvent evt) {
         controller.nextQuestion();
     }
 
     public void answersValueChanged(javax.swing.event.ListSelectionEvent evt) {
         boolean vis = answers.getSelectedValue() != null
-                        && !((Answer) answers.getSelectedValue()).getDone();
+                && !((Answer) answers.getSelectedValue()).getDone();
         teams[0].setEnabled(vis);
         teams[1].setEnabled(vis);
         teams[2].setEnabled(vis);
@@ -550,7 +546,6 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
         show.setEnabled(vis);
     }
 
-    
     public JTextField[] getTeamNames() {
         return teamNames;
     }
@@ -559,24 +554,22 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
         this.teams[team].setText(teamnames);
     }
 
-    
-
     public void doChangeName(java.awt.event.MouseEvent evt) {
-    	if (evt.getClickCount() == 2) {
-        	if (evt.getSource().equals(this.getTeamNames()[2]) && game.getNumberOfPlayers() < 3
-                                    || evt.getSource().equals(getTeamNames()[3]) && game.getNumberOfPlayers() < 4) {
-                	return;
-                }
+        if (evt.getClickCount() == 2) {
+            if (evt.getSource().equals(this.getTeamNames()[2]) && game.getNumberOfPlayers() < 3
+                    || evt.getSource().equals(getTeamNames()[3]) && game.getNumberOfPlayers() < 4) {
+                return;
+            }
 
-            	JTextField src = (JTextField) evt.getSource();
+            JTextField src = (JTextField) evt.getSource();
 
-                if (!src.isEnabled()) {
-                    src.setEnabled(true);
-                    src.requestFocus();
-                    BuzzerEventQueue.getInstance().setEnabled(false);
-           	}
+            if (!src.isEnabled()) {
+                src.setEnabled(true);
+                src.requestFocus();
+                BuzzerEventQueue.getInstance().setEnabled(false);
             }
         }
+    }
 
     public void buzzersActionPerformed(java.awt.event.ActionEvent evt) {
         buzzers.setEnabled(false);
@@ -584,33 +577,33 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
     }
 
     public void changedName(java.awt.event.FocusEvent evt) {
-            JTextField src = (JTextField) evt.getSource();
-            if (src.isEnabled()) {
-                    src.setEnabled(false);
+        JTextField src = (JTextField) evt.getSource();
+        if (src.isEnabled()) {
+            src.setEnabled(false);
 
-                    int team = -1;
+            int team = -1;
 
-                    if (src.equals(getTeamNames()[0])) {
-                            team = 0;
-                    } else if (src.equals(getTeamNames()[1])) {
-                            team = 1;
-                    } else if (src.equals(getTeamNames()[2])) {
-                            team = 2;
-                    } else if (src.equals(getTeamNames()[3])) {
-                            team = 3;
-                    }
-
-                    setTeams(src.getText(), team);
-                    game.getTeams().get(team).setName(src.getText());
-                    BuzzerEventQueue.getInstance().setEnabled(!getTeamNames()[0].isEnabled() && !getTeamNames()[1].isEnabled()
-                                    && !getTeamNames()[2].isEnabled() && !getTeamNames()[3].isEnabled());
-                    controller.update();
+            if (src.equals(getTeamNames()[0])) {
+                team = 0;
+            } else if (src.equals(getTeamNames()[1])) {
+                team = 1;
+            } else if (src.equals(getTeamNames()[2])) {
+                team = 2;
+            } else if (src.equals(getTeamNames()[3])) {
+                team = 3;
             }
+
+            setTeams(src.getText(), team);
+            game.getTeams().get(team).setName(src.getText());
+            BuzzerEventQueue.getInstance().setEnabled(!getTeamNames()[0].isEnabled() && !getTeamNames()[1].isEnabled()
+                    && !getTeamNames()[2].isEnabled() && !getTeamNames()[3].isEnabled());
+            controller.update();
+        }
     }
-        
+
     private void answer(int player) {
         if (answers.getSelectedValue() != null) {
-                controller.guessedAnswer((Answer) answers.getSelectedValue(), player);
+            controller.guessedAnswer((Answer) answers.getSelectedValue(), player);
         }
     }
     private javax.swing.JPanel answerPanel;
@@ -635,4 +628,3 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
     private javax.swing.JTextField[] teamNames;
 
 }
-
