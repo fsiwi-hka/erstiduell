@@ -86,6 +86,9 @@ public class Game extends Observable {
 
     public void setCurrentQuestion(Question question) {
         this.currentQuestion = question;
+        
+        setChanged();
+        notifyObservers(this);
     }
 
     public void resetPenalties() {

@@ -9,23 +9,19 @@ import info.hska.erstiduell.buzzer.BuzzerEventQueue;
 import info.hska.erstiduell.buzzer.BuzzerHandler;
 import info.hska.erstiduell.questions.Answer;
 import info.hska.erstiduell.questions.Question;
-import info.hska.erstiduell.questions.QuestionLibrary;
 import info.hska.erstiduell.view.ConfigWindow;
 import info.hska.erstiduell.view.ControllerWindow;
 import info.hska.erstiduell.view.GameWindow;
-import java.awt.EventQueue;
 import java.awt.GraphicsEnvironment;
 import java.awt.Toolkit;
-import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
-import javax.swing.JOptionPane;
 
 /**
  *
  * @author Moritz Grimm
  */
-public class Controller implements Observer {
+public class Controller {
 
     private Game game;
     private GameWindow gw;
@@ -46,7 +42,8 @@ public class Controller implements Observer {
         game = new Game(config);
 
         bh = new BuzzerHandler(config.hotkeys, game);
-        bh.addObserver(this);
+        BuzzerObserver bo = new BuzzerObserver();
+        bh.addObserver(bo);
         BuzzerEventQueue.setKeys(config.hotkeys, bh);
 
         Toolkit.getDefaultToolkit().getSystemEventQueue().push(BuzzerEventQueue.getInstance());
@@ -58,18 +55,41 @@ public class Controller implements Observer {
         update();
     }
 
-    public void update(Observable BuzzerHandler, Object o) {
-        this.bh = (BuzzerHandler) o;
-        game.setCurrentTeam(bh.getCurrentTeam());
-        game.setBuzzersBlocked(bh.getBlocked());
+    private class BuzzerObserver implements Observer {
 
-        update();
-        gw.showBuzzer(bh.getCurrentTeam());
+        public void update(Observable o, Object arg) {
+            BuzzerHandler bh = (BuzzerHandler) arg;
+            game.setCurrentTeam(bh.getCurrentTeam());
+            game.setBuzzersBlocked(bh.getBlocked());
+
+            Controller.this.update();
+            gw.showBuzzer(bh.getCurrentTeam());
+        }
     }
 
-    private void update() {
-        cw.refresh();
+    private class ControllerWindowObserver implements Observer {
+
+        public void update(Observable o, Object arg) {
+            //ControllerWindowObservable cwo = (ControllerWindowObservable) arg;
+            //Controller.this.nextQuestion(cwo.getNextQuestion());
+            if (arg instanceof Answer) {
+                Controller.this.showAnswer((Answer) arg);
+            } else if (arg instanceof Question) {
+                Controller.this.nextQuestion((Question) arg);
+            } else if (arg instanceof Boolean) {
+                Controller.this.releaseBuzzers();
+            }
+
+            Controller.this.update();
+        }
+        public void update(Observable o) {
+            Controller.this.update();
+        }
+    }
+
+    public void update() {
         gw.redraw();
+        cw.refresh();
     }
 
     public void createGameWindow(Config config, Controller controller) {
@@ -77,26 +97,11 @@ public class Controller implements Observer {
         gw.setBGColor(config.background);
         gw.setFGColor(config.foreground);
         gw.setVisible(true);
-        cw = new ControllerWindow(game, controller);
+        cw = new ControllerWindow(game);
         cw.setVisible(true);
-    }
 
-    public void nextQuesActionPerformed(java.awt.event.ActionEvent evt) {
-        nextQuestion();
-    }
-
-    public void setPoints(int player, int points) {
-        game.getTeams().get(player - 1).setPoints(points);
-
-        update();
-    }
-
-    public void guessedAnswer(Answer a, int player) {
-        if (!a.getDone()) {
-            game.getTeams().get(player - 1).addPoints(a.getAmount());
-            a.done();
-        }
-        game.setCurrentTeam(-1);
+        ControllerWindowObserver co = new ControllerWindowObserver();
+        cw.getObservable().addObserver(co);
     }
 
     public void setBuzzersActive(boolean active) {
@@ -121,12 +126,12 @@ public class Controller implements Observer {
             game.setBuzzersBlocked(false);
             bh.release();
             //Game.this.refresh = true;
-            update();
+            gw.redraw();
         }
     };
     ReleaseTimer releaseTimer;
 
-    public void releaseBuzzer() {
+    public void releaseBuzzers() {
         if (game.getCurrentTeam() >= 0) {
             game.getTeams().get(game.getCurrentTeam()).addPenalty();
             game.setCurrentTeam(-1);
@@ -151,36 +156,10 @@ public class Controller implements Observer {
     public void nextQuestion(Question q) {
         game.setCurrentQuestion(q);
         game.getCurrentQuestion().done();
-        resetPenalties();
         game.setCurrentTeam(-1);
-        update();
-        releaseBuzzer();
-    }
-
-    public Question nextQuestion() {
-        List<Question> qs = game.getQuestions().getAllQuestions();
-                //List<Question> qs = QuestionLibrary.getInstance().getAllQuestions();
-
-        // Get random question
-        int i = (int) (Math.random() * qs.size());
-        int count = 0;
-
-        while (count++ < qs.size() && qs.get(i).getDone()) {
-            i = (i + 1) % qs.size();
-        }
-
-        if (count >= qs.size()) {
-            return null;
-        }
-
-        game.setCurrentQuestion(qs.get(i));
-        game.getCurrentQuestion().done();
         resetPenalties();
-        game.setCurrentTeam(-1);
         update();
-        releaseBuzzer();
-
-        return game.getCurrentQuestion();
+        releaseBuzzers();
     }
 
     public void resetPenalties() {
@@ -189,14 +168,10 @@ public class Controller implements Observer {
         }
     }
 
-    public void endGame() {
-        game.setFinished(true);
-        update();
-    }
-
     public void showAnswer(Answer a) {
         a.done();
-        update();
+        gw.redraw();
+        //update();
     }
 
 }
