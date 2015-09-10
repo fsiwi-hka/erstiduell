@@ -25,3 +25,8 @@ Usage should be self explaining:
 - Choose display for game window
 
 - You can change the team name in the Gamecontroller window by double clicking the team name box
+
+*BACKLOG (no order)
+** fix error in JComboBox (probably racecondition, since it does not occur in debug mode)
+** enable controlling game via keyboard
+** make number of remaining tries for answering question visible

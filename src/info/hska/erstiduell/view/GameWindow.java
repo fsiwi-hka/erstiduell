@@ -1,5 +1,5 @@
 /*
- * GameWindow2.java
+ * GameWindow.java
  *
  * Created on 10.03.2011, 21:06:52
  */
@@ -152,11 +152,8 @@ public class GameWindow extends javax.swing.JFrame implements Observer {
                 }
                 c.append("</td></tr>");
             }
-
             c.append("</table>");
-
         }
-
         c.append("</html>");
 
         content.setText(c.toString());
