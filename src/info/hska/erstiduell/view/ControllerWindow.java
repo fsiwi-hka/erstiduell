@@ -32,8 +32,8 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
 
     private Game game;
     private final JButton[] teamButtons;
-    private ControllerWindowObservable cwo;
-
+    private final ControllerWindowObservable cwo;
+    private final List<Question> questions;
     /**
      * Creates new form ControllerWindow
      *
@@ -50,7 +50,8 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
         this.setVisible(true);
 
         this.cwo = new ControllerWindowObservable();
-
+        
+        questions = QuestionLibrary.getInstance().getAllQuestions();
     }
 
     public void update(Observable game, Object o) {
@@ -65,11 +66,13 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
         points3.getModel().setValue(game.getPoint(3));
         points4.getModel().setValue(game.getPoint(4));
 
-        if (game.getCurrentTeam() != 0) {
+        
+        if (game.getCurrentTeam() >= 0) {
             buzzers.setText("Release Buzzers [" + game.getCurrentTeam() + "]");
         } else {
             buzzers.setText("Release Buzzers");
         }
+        
         buzzers.setEnabled(game.areBuzzersBlocked());
 
         for (int i = 0; i < this.game.getTeams().size(); i++) {
@@ -81,10 +84,11 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
         }
 
         answers.removeAll();
+        
+        renewQuestions();
 
         if (game.getCurrentQuestion() != null) {
 
-            renewQuestions();
 
             question.setText(game.getCurrentQuestion().getQuestionText());
 
@@ -110,12 +114,9 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
         gameQuestions.removeAll();
         gameQuestions.removeAllItems();
 
-        System.out.println(gameQuestions);
-        System.out.println(game.getQuestions().getQuestionAmount());
-
         gameQuestions.addItem(new Question("[Choose Question]"));
         //for (Question q : QuestionLibrary.getInstance().getAllQuestions()) {
-        for (Question q : game.getQuestions().getAllQuestions()) {
+        for (Question q : questions) {
             gameQuestions.addItem(q);
         }
     }
@@ -158,7 +159,7 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
         chooseQuestionPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Questions"));
         chooseQuestionPanel.setLayout(new java.awt.GridBagLayout());
 
-        gameQuestions.setFont(new java.awt.Font("Liberation Mono", 0, 15)); // NOI18N
+        gameQuestions.setFont(new java.awt.Font("Liberation Mono", 0, 15));
         gameQuestions.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
@@ -552,8 +553,7 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
     }
 
     private void randomQuestionActionPerformed(java.awt.event.ActionEvent evt) {
-        List<Question> qs = game.getQuestions().getAllQuestions();
-        //List<Question> qs = QuestionLibrary.getInstance().getAllQuestions();
+        List<Question> qs = QuestionLibrary.getInstance().getAllQuestions();
 
         // Get random question
         int i = (int) (Math.random() * qs.size());

@@ -1,19 +1,13 @@
 package info.hska.erstiduell;
 
-import info.hska.erstiduell.buzzer.BuzzerEventQueue;
 import info.hska.erstiduell.buzzer.BuzzerHandler;
-import info.hska.erstiduell.questions.Answer;
 import info.hska.erstiduell.questions.Question;
 import info.hska.erstiduell.questions.QuestionLibrary;
-import info.hska.erstiduell.view.ConfigWindow;
 import info.hska.erstiduell.view.ControllerWindow;
 import info.hska.erstiduell.view.GameWindow;
-import java.awt.GraphicsEnvironment;
-import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
-import java.util.Observer;
 
 /**
  *
@@ -25,7 +19,6 @@ public class Game extends Observable {
     private List<Team> teams;
     private ControllerWindow cw;
     private GameWindow gw;
-    private QuestionLibrary questions;
     private Question currentQuestion;
     private boolean finished;
     private int currentTeam = -1;
@@ -33,7 +26,6 @@ public class Game extends Observable {
     private boolean buzzersBlocked = true;
 
     public Game(Config config) {
-        questions = QuestionLibrary.getInstance();
 
         teams = new ArrayList<Team>();
         for (int i = 0; i < config.players; i++) {
@@ -66,10 +58,6 @@ public class Game extends Observable {
 
     public List<Team> getTeams() {
         return this.teams;
-    }
-
-    public QuestionLibrary getQuestions() {
-        return questions;
     }
 
     public void setCurrentTeam(int team) {
