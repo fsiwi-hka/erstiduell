@@ -133,7 +133,7 @@ public class Controller {
 
     public void releaseBuzzers() {
         if (game.getCurrentTeam() >= 0) {
-            game.getTeams().get(game.getCurrentTeam()).addPenalty();
+            game.getTeams().get(game.getCurrentTeam() - 1).addPenalty();
             game.setCurrentTeam(-1);
             gw.redraw();
             boolean endQuestion = true;
