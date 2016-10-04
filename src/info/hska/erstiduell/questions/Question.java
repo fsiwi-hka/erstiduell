@@ -13,15 +13,17 @@ public class Question {
 
     private final String question;
     private List<Answer> answers = new ArrayList<Answer>();
-    private boolean done;
+    private boolean done = false;
 
     /**
      * Create a new question.
      *
      * @param question Question text
      */
-    public Question(String question) {
+    public Question(String question, ArrayList<Answer> answers, boolean done) {
         this.question = question;
+        this.answers = answers;
+        this.done = done;
     }
 
     /**

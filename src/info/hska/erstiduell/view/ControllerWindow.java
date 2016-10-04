@@ -14,11 +14,14 @@ import info.hska.erstiduell.questions.QuestionLibrary;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.AbstractListModel;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
@@ -34,6 +37,7 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
     private final JButton[] teamButtons;
     private final ControllerWindowObservable cwo;
     private final List<Question> questions;
+
     /**
      * Creates new form ControllerWindow
      *
@@ -50,7 +54,7 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
         this.setVisible(true);
 
         this.cwo = new ControllerWindowObservable();
-        
+
         questions = QuestionLibrary.getInstance().getAllQuestions();
     }
 
@@ -66,13 +70,12 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
         points3.getModel().setValue(game.getPoint(3));
         points4.getModel().setValue(game.getPoint(4));
 
-        
         if (game.getCurrentTeam() >= 0) {
             buzzers.setText("Release Buzzers [" + game.getCurrentTeam() + "]");
         } else {
             buzzers.setText("Release Buzzers");
         }
-        
+
         buzzers.setEnabled(game.areBuzzersBlocked());
 
         for (int i = 0; i < this.game.getTeams().size(); i++) {
@@ -84,12 +87,14 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
         }
 
         answers.removeAll();
-        
-        renewQuestions();
+
+        //renewQuestions();
+        if (game.getNextQuestion() < questions.size()) {
+            
+            gameQuestions.setText(questions.get(game.getNextQuestion()).getQuestionText());
+        }
 
         if (game.getCurrentQuestion() != null) {
-
-
             question.setText(game.getCurrentQuestion().getQuestionText());
 
             answers.setModel(new AbstractListModel() {
@@ -109,24 +114,31 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
                 + "/" + QuestionLibrary.getInstance().getQuestionAmount());
         progressBar.setValue(answered);
     }
-
+/*
     private synchronized void renewQuestions() {
         gameQuestions.removeAll();
         gameQuestions.removeAllItems();
-
-        gameQuestions.addItem(new Question("[Choose Question]"));
+        gameQuestions.validate();
+        //if (gameQuestions == null) {
+        //    gameQuestions = new JComboBox<Question>();
+        //}
+        Answer answer = new Answer("dummy", 0);
+        ArrayList<Answer> answers = new ArrayList<Answer>();
+        answers.add(answer);
+        Question q2 = new Question("[Choose Question]", answers, false);
+        gameQuestions.addItem(q2);
         //for (Question q : QuestionLibrary.getInstance().getAllQuestions()) {
         for (Question q : questions) {
             gameQuestions.addItem(q);
         }
     }
-
+*/
     // <editor-fold defaultstate="collapsed">
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
         chooseQuestionPanel = new javax.swing.JPanel();
-        gameQuestions = new javax.swing.JComboBox<Question>();
+        gameQuestions = new javax.swing.JButton();
         nextQuestionButton = new javax.swing.JButton();
         progressBar = new javax.swing.JProgressBar();
         question = new javax.swing.JLabel();
@@ -160,13 +172,29 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
         chooseQuestionPanel.setLayout(new java.awt.GridBagLayout());
 
         gameQuestions.setFont(new java.awt.Font("Liberation Mono", 0, 15));
-        gameQuestions.addActionListener(new ActionListener() {
+        gameQuestions.addActionListener(new java.awt.event.ActionListener() {
 
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed (java.awt.event.ActionEvent evt) {
+                cwo.setNextQuestion(questions.get(game.getNextQuestion()));
+                if (game.getNextQuestion() < questions.size()-1) {
+                    game.setNextQuestion(game.getNextQuestion() + 1);
+                    gameQuestions.setText(questions.get(game.getNextQuestion()).getQuestionText());
+        
+                } else {
+                    game.setNextQuestion(0);
+                    gameQuestions.setText(questions.get(0).getQuestionText());
+        
+                }
+                /*
+                System.out.println((Question) gameQuestions.getSelectedItem());
                 if (gameQuestions.getSelectedIndex() > 0) {
                     //controller.nextQuestion((Question) gameQuestions.getSelectedItem());
+                    System.out.println((Question) gameQuestions.getSelectedItem());
                     cwo.setNextQuestion((Question) gameQuestions.getSelectedItem());
+
+                    //TODO: somehow does not work. Selecting is possible but on click, nothing happens.
                 }
+                */
             }
         });
 
@@ -181,7 +209,7 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
         nextQuestionButton.setText("Random Question");
         nextQuestionButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                randomQuestionActionPerformed(evt);
+                randomQuestionActionPerformed();
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -264,7 +292,6 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
 
             public void actionPerformed(ActionEvent e) {
                 if (answers.getSelectedValue() != null) {
-                    //controller.showAnswer((Answer) answers.getSelectedValue());
                     cwo.showAnswer((Answer) answers.getSelectedValue());
                 }
             }
@@ -552,7 +579,7 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
         }
     }
 
-    private void randomQuestionActionPerformed(java.awt.event.ActionEvent evt) {
+    private void randomQuestionActionPerformed() {
         List<Question> qs = QuestionLibrary.getInstance().getAllQuestions();
 
         // Get random question
@@ -562,7 +589,6 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
         while (count++ < qs.size() && qs.get(i).getDone()) {
             i = (i + 1) % qs.size();
         }
-
         cwo.setNextQuestion(qs.get(i));
     }
 
@@ -647,7 +673,7 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
         }
     }
     private javax.swing.JPanel answerPanel;
-    private javax.swing.JComboBox<Question> gameQuestions;
+    private javax.swing.JButton gameQuestions;
     private javax.swing.JList answers;
     private javax.swing.JButton buzzers;
     private javax.swing.JPanel chooseQuestionPanel;
@@ -666,5 +692,4 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
     private javax.swing.JButton showWinner;
     private javax.swing.JButton[] teams;
     private javax.swing.JTextField[] teamNames;
-
 }

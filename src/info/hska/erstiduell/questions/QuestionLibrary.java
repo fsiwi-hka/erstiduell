@@ -65,8 +65,7 @@ public final class QuestionLibrary {
                     + "\"");
         }
 
-        Question question = new Question(split[0]);
-
+        ArrayList<Answer> answers = new ArrayList<Answer>();
         String[] answerSplit;
         for (int i = 1; i < split.length; i++) {
             answerSplit = split[i].split("#");
@@ -75,9 +74,12 @@ public final class QuestionLibrary {
                         + ((questionString.length() > 50) ? questionString.substring(0, 30) + "[...]" : questionString)
                         + "\"");
             }
-            question.addAnswer(new Answer(answerSplit[1],
+            
+            answers.add(new Answer(answerSplit[1],
                     Integer.valueOf(answerSplit[0])));
         }
+        
+        Question question = new Question(split[0], answers, false);
 
         return question;
 

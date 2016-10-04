@@ -26,6 +26,7 @@ public class Game extends Observable {
     private BuzzerHandler bh;
     private boolean buzzersBlocked = true;
     private GraphicsDevice device;
+    private int nextQuestion;
 
     public Game(Config config) {
 
@@ -78,6 +79,14 @@ public class Game extends Observable {
         return currentQuestion;
     }
 
+    public int getNextQuestion() {
+        return nextQuestion;
+    }
+    
+    public void setNextQuestion(int nextQuestion) {
+        this.nextQuestion = nextQuestion;
+    }
+    
     public void setCurrentQuestion(Question question) {
         this.currentQuestion = question;
         
