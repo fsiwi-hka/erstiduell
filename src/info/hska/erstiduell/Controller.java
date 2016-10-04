@@ -79,7 +79,6 @@ public class Controller {
             } else if (arg instanceof Boolean) {
                 Controller.this.releaseBuzzers();
             }
-
             Controller.this.update();
         }
         public void update(Observable o) {

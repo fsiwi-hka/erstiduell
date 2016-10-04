@@ -5,6 +5,7 @@ import info.hska.erstiduell.questions.Question;
 import info.hska.erstiduell.questions.QuestionLibrary;
 import info.hska.erstiduell.view.ControllerWindow;
 import info.hska.erstiduell.view.GameWindow;
+import java.awt.GraphicsDevice;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -24,6 +25,7 @@ public class Game extends Observable {
     private int currentTeam = -1;
     private BuzzerHandler bh;
     private boolean buzzersBlocked = true;
+    private GraphicsDevice device;
 
     public Game(Config config) {
 
@@ -31,6 +33,7 @@ public class Game extends Observable {
         for (int i = 0; i < config.players; i++) {
             teams.add(new Team("T" + (i + 1)));
         }
+        device = config.display;
     }
 
     public int getNumberOfPlayers() {
@@ -54,6 +57,9 @@ public class Game extends Observable {
             return 0;
         }
         return teams.get(player - 1).getPoints();
+    }
+    public GraphicsDevice getDevice() {
+        return device;
     }
 
     public List<Team> getTeams() {
