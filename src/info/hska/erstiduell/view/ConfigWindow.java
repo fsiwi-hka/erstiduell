@@ -42,10 +42,10 @@ public final class ConfigWindow extends javax.swing.JFrame {
      */
     public ConfigWindow(Controller controller) {
         this.controller = controller;
-        hotkeys[0] = new Key(85, 1, "U");
-        hotkeys[1] = new Key(73, 1, "I");
-        hotkeys[2] = new Key(65, 1, "A");
-        hotkeys[3] = new Key(69, 1, "E");
+        hotkeys[0] = new Key(48, 1, "0");
+        hotkeys[1] = new Key(49, 1, "1");
+        hotkeys[2] = new Key(50, 1, "2");
+        hotkeys[3] = new Key(51, 1, "3");
         initComponents();
         updateErrors();
 
@@ -374,10 +374,6 @@ public final class ConfigWindow extends javax.swing.JFrame {
     }
 
     private void loadQuestions(File input) {
-        if (input == null) {
-            return;
-        }
-
         try {
             QuestionLibrary.loadQuestions(input);
         } catch (Exception ex) {
