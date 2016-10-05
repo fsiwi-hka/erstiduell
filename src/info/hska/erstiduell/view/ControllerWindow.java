@@ -70,8 +70,8 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
         points3.getModel().setValue(game.getPoint(3));
         points4.getModel().setValue(game.getPoint(4));
 
-        if (game.getCurrentTeam() >= 0) {
-            buzzers.setText("Release Buzzers [" + game.getCurrentTeam() + "]");
+        if (game.getCurrentTeam() >= 0) { 
+            buzzers.setText("Release Buzzers [" + game.getTeams().get(game.getCurrentTeam()-1).getName() + "]");
         } else {
             buzzers.setText("Release Buzzers");
         }
@@ -632,8 +632,9 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
     }
 
     public void buzzersActionPerformed(java.awt.event.ActionEvent evt) {
-        buzzers.setEnabled(false);
         cwo.releaseBuzzers();
+        buzzers.setEnabled(false);
+        buzzers.setText("---released---");
     }
 
     public void changedName(java.awt.event.FocusEvent evt) {
