@@ -67,7 +67,9 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
         points4.getModel().setValue(game.getPoint(4));
 
         if (game.getCurrentTeam() > 0) {
-            buzzers.setText("Release Buzzers [" + game.getTeams().get(game.getCurrentTeam() - 1).getName() + "]");
+            buzzers.setText("Release Buzzers and penalize " + game.getTeams().get(game.getCurrentTeam() - 1).getName());
+        } else if (game.getCurrentTeam() == 0) {
+            buzzers.setText("Premature Buzzering");
         } else {
             buzzers.setText("Release Buzzers");
         }
