@@ -51,7 +51,6 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
         this.setVisible(true);
 
         this.cwo = new ControllerWindowObservable();
-
         questions = QuestionLibrary.getInstance().getAllQuestions();
     }
 
@@ -67,8 +66,8 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
         points3.getModel().setValue(game.getPoint(3));
         points4.getModel().setValue(game.getPoint(4));
 
-        if (game.getCurrentTeam() >= 0) { 
-            buzzers.setText("Release Buzzers [" + game.getTeams().get(game.getCurrentTeam()-1).getName() + "]");
+        if (game.getCurrentTeam() > 0) {
+            buzzers.setText("Release Buzzers [" + game.getTeams().get(game.getCurrentTeam() - 1).getName() + "]");
         } else {
             buzzers.setText("Release Buzzers");
         }
@@ -86,7 +85,7 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
         answers.removeAll();
 
         if (game.getNextQuestion() < questions.size()) {
-            
+
             gameQuestions.setText(questions.get(game.getNextQuestion()).getQuestionText());
         }
 
@@ -110,7 +109,7 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
                 + "/" + QuestionLibrary.getInstance().getQuestionAmount());
         progressBar.setValue(answered);
     }
-    
+
     // <editor-fold defaultstate="collapsed">
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
@@ -140,7 +139,7 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
         showWinner = new javax.swing.JButton();
         exitButton = new javax.swing.JButton();
 
-       setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         setTitle("Quizduell Controller");
         getContentPane().setLayout(new java.awt.GridBagLayout());
@@ -151,20 +150,19 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
         gameQuestions.setFont(new java.awt.Font("Liberation Mono", 0, 15));
         gameQuestions.addActionListener(new java.awt.event.ActionListener() {
 
-            public void actionPerformed (java.awt.event.ActionEvent evt) {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cwo.setNextQuestion(questions.get(game.getNextQuestion()));
-                if (game.getNextQuestion() < questions.size()-1) {
+
+                if (game.getNextQuestion() < questions.size() - 1) {
                     game.setNextQuestion(game.getNextQuestion() + 1);
                     gameQuestions.setText(questions.get(game.getNextQuestion()).getQuestionText());
-        
+
                 } else {
                     game.setNextQuestion(0);
                     gameQuestions.setText(questions.get(0).getQuestionText());
-        
                 }
             }
         });
-
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -351,7 +349,6 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
                 game.getTeams().get(1 - 1).setPoints((Integer) points1.getValue());
                 cwo.update();
             }
-
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
