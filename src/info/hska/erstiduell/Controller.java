@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package info.hska.erstiduell;
 
 import info.hska.erstiduell.buzzer.BuzzerEventQueue;
@@ -70,9 +65,7 @@ public class Controller {
     private class ControllerWindowObserver implements Observer {
 
         public void update(Observable o, Object arg) {
-            //ControllerWindowObservable cwo = (ControllerWindowObservable) arg;
-            //Controller.this.nextQuestion(cwo.getNextQuestion());
-            if (arg instanceof Answer) {
+           if (arg instanceof Answer) {
                 Controller.this.showAnswer((Answer) arg);
             } else if (arg instanceof Question) {
                 Controller.this.nextQuestion((Question) arg);
@@ -124,7 +117,6 @@ public class Controller {
             releaseTimer = null;
             game.setBuzzersBlocked(false);
             bh.release();
-            //Game.this.refresh = true;
             gw.redraw();
         }
     };
@@ -170,7 +162,6 @@ public class Controller {
     public void showAnswer(Answer a) {
         a.done();
         gw.redraw();
-        //update();
     }
 
 }
