@@ -52,6 +52,8 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
 
         this.cwo = new ControllerWindowObservable();
         questions = QuestionLibrary.getInstance().getAllQuestions();
+
+        initNames();
     }
 
     public void update(Observable game, Object o) {
@@ -67,7 +69,8 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
         points4.getModel().setValue(game.getPoint(4));
 
         if (game.getCurrentTeam() > 0) {
-            buzzers.setText("Release Buzzers and penalize " + game.getTeams().get(game.getCurrentTeam() - 1).getName());
+            buzzers.setText("Release Buzzers and penalize "
+                    + game.getTeams().get(game.getCurrentTeam() - 1).getName());
         } else if (game.getCurrentTeam() == 0) {
             buzzers.setText("Premature Buzzering");
         } else {
@@ -551,6 +554,16 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
             i = (i + 1) % qs.size();
         }
         cwo.setNextQuestion(qs.get(i));
+    }
+
+    private void initNames() {
+        for (int team = 0; team < game.getTeams().size(); team++) {
+            setTeams(teamNames[team].getText(), team);
+            game.getTeams().get(team).setName(teamNames[team].getText());
+        }
+        BuzzerEventQueue.getInstance().setEnabled(!getTeamNames()[0].isEnabled() && !getTeamNames()[1].isEnabled()
+                && !getTeamNames()[2].isEnabled() && !getTeamNames()[3].isEnabled());
+        cwo.update();
     }
 
     public void answersValueChanged(javax.swing.event.ListSelectionEvent evt) {
