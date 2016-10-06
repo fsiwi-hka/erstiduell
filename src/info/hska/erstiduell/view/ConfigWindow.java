@@ -150,7 +150,7 @@ public final class ConfigWindow extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(2, 5, 2, 5);
         gamePanel.add(jLabel1, gridBagConstraints);
 
-        amountPlayers.setModel(new javax.swing.SpinnerNumberModel(2, 2, 4, 1));
+        amountPlayers.setModel(new javax.swing.SpinnerNumberModel(4, 2, 4, 1));
         amountPlayers.addChangeListener(new ChangeListener() {
 
             public void stateChanged(ChangeEvent e) {
@@ -487,6 +487,7 @@ public final class ConfigWindow extends javax.swing.JFrame {
         for (GraphicsDevice d : devices) {
             outputMonitor.addItem(d);
         }
+        outputMonitor.setSelectedIndex(1);
     }
 
     private javax.swing.JSpinner amountPlayers;
