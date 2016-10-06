@@ -45,10 +45,6 @@ public class GameWindow extends javax.swing.JFrame implements Observer {
         redraw();
     }
 
-    public Game getGame() {
-        return game;
-    }
-
     public void setBGColor(Color color) {
         getContentPane().setBackground(color);
         points1.setForeground(color);
