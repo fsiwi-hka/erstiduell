@@ -457,7 +457,7 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
         gridBagConstraints.insets = new java.awt.Insets(2, 5, 2, 5);
         pointPanel.add(points4, gridBagConstraints);
 
-        teamNames[0].setText("T1");
+        teamNames[0].setText("Team Awesome");
         teamNames[0].setEnabled(false);
         teamNames[0].addMouseListener(new Mouse(this));
 
@@ -471,7 +471,7 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
         gridBagConstraints.insets = new java.awt.Insets(2, 5, 2, 5);
         pointPanel.add(teamNames[0], gridBagConstraints);
 
-        teamNames[1].setText("T2");
+        teamNames[1].setText("Team Better");
         teamNames[1].setEnabled(false);
         teamNames[1].addMouseListener(new Mouse(this));
         teamNames[1].addFocusListener(new java.awt.event.FocusAdapter() {
@@ -484,7 +484,7 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
         gridBagConstraints.insets = new java.awt.Insets(2, 5, 2, 5);
         pointPanel.add(teamNames[1], gridBagConstraints);
 
-        teamNames[2].setText("T3");
+        teamNames[2].setText("Team Cecilia");
         teamNames[2].setEnabled(false);
         teamNames[2].addMouseListener(new Mouse(this));
         teamNames[2].addFocusListener(new java.awt.event.FocusAdapter() {
@@ -497,7 +497,7 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
         gridBagConstraints.insets = new java.awt.Insets(2, 5, 2, 5);
         pointPanel.add(teamNames[2], gridBagConstraints);
 
-        teamNames[3].setText("T4");
+        teamNames[3].setText("The Dominators");
         teamNames[3].setEnabled(false);
         teamNames[3].addMouseListener(new Mouse(this));
         teamNames[3].addFocusListener(new java.awt.event.FocusAdapter() {
