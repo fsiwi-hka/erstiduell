@@ -99,27 +99,46 @@ public class GameWindow extends javax.swing.JFrame implements Observer {
         } else {
             drawContent();
         }
-
     }
 
     private void drawPlayerNames() {
+
         int numAnswers = (game.getCurrentQuestion() == null)
                 ? 10 : game.getCurrentQuestion().getAnswers().size();
-        for (int i = 0; i < game.getNumberOfPlayers(); i++) {
-            if (game.getTeams().get(i).getPenalty() >= numAnswers) {
+        String color;
+        int triesLeft;
+        for (int team = 0; team < game.getNumberOfPlayers(); team++) {
+            if (game.getCurrentQuestion() != null) {
                 myAsterisk = "<p>";
-                for (int j = 0; j < game.getTeams().get(i).getName().length(); j++) {
+                triesLeft = game.getCurrentQuestion().getAnswers().size()
+                        - game.getTeams().get(team).getPenalty();
+                for (int j = 0; j < triesLeft; j++) {
                     myAsterisk = myAsterisk + "*";
                 }
-                myAsterisk = myAsterisk + "</p>";
-                teams[i].setText("<html><font color='red'>"
-                        + myAsterisk
-                        + game.getTeams().get(i).getName()
-                        + myAsterisk
-                        + "</font></html>");
+                myAsterisk += "</p>";
             } else {
-                teams[i].setText(game.getTeams().get(i).getName());
+                myAsterisk = "";
+                triesLeft = -1;
             }
+            switch (triesLeft) {
+                case 0:
+                    color = "red";
+                    break;
+                case 1:
+                    color = "orange";
+                    break;
+                case 2:
+                    color = "yellow";
+                    break;
+                default:
+                    color = "black";
+            }
+            myAsterisk = myAsterisk + "</p>";
+            teams[team].setText("<html><font color='" + color + "'>"
+                    + myAsterisk
+                    + game.getTeams().get(team).getName()
+                    + myAsterisk
+                    + "</font></html>");
         }
     }
 
