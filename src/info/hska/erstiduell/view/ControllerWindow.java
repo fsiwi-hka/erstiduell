@@ -152,6 +152,7 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
         gamePanel = new javax.swing.JPanel();
         showWinner = new javax.swing.JButton();
         exitButton = new javax.swing.JButton();
+        next = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -219,7 +220,7 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridheight = 4;
+        gridBagConstraints.gridheight = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.ipadx = 28;
         gridBagConstraints.ipady = 50;
@@ -229,10 +230,26 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
         gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 2);
         answerPanel.add(jScrollPane1, gridBagConstraints);
 
+        next.setText("Give Points to Buzzerer and Release");
+        next.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                autopointsActionPerformed();
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
+        gridBagConstraints.weightx = 2.0;
+        gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 2);
+        answerPanel.add(next, gridBagConstraints);
+
         buzzers.setText("Release Buzzers");
         buzzers.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buzzersActionPerformed(evt);
+                buzzersActionPerformed();
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -248,10 +265,9 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
         show.setText("Show without giving Points");
         show.setEnabled(false);
         show.addActionListener(new ActionListener() {
-
             public void actionPerformed(ActionEvent e) {
                 if (answers.getSelectedValue() != null) {
-                    cwo.showAnswer((Answer) answers.getSelectedValue());                            
+                    cwo.showAnswer((Answer) answers.getSelectedValue());
                 }
             }
         });
@@ -583,6 +599,7 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
         teams[2].setEnabled(vis);
         teams[3].setEnabled(vis);
         show.setEnabled(vis);
+        next.setEnabled(vis);
     }
 
     public JTextField[] getTeamNames() {
@@ -613,7 +630,7 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
         }
     }
 
-    public void buzzersActionPerformed(java.awt.event.ActionEvent evt) {
+    public void buzzersActionPerformed() {
         cwo.releaseBuzzers();
         buzzers.setEnabled(false);
         buzzers.setText("---released---");
@@ -653,6 +670,19 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
             game.setCurrentTeam(-1);
         }
     }
+
+    private void autopointsActionPerformed() {
+        if (answers.getSelectedValue() != null) {
+            Answer a = (Answer) answers.getSelectedValue();
+            if (!a.getDone()) {
+                game.getTeams().get(game.getCurrentTeam()).addPoints(a.getAmount());
+                a.done();
+            }
+            game.setCurrentTeam(-1);
+            buzzersActionPerformed();
+        }
+    }
+
     private javax.swing.JPanel answerPanel;
     private javax.swing.JButton gameQuestions;
     private javax.swing.JList answers;
@@ -673,4 +703,5 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
     private javax.swing.JButton showWinner;
     private javax.swing.JButton[] teams;
     private javax.swing.JTextField[] teamNames;
+    private javax.swing.JButton next;
 }
