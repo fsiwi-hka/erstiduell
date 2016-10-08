@@ -16,7 +16,6 @@ import java.util.Observable;
  */
 public class Game extends Observable {
 
-    private int[] points;
     private List<Team> teams;
     private ControllerWindow cw;
     private GameWindow gw;

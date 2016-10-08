@@ -43,6 +43,7 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
     public ControllerWindow(Game game) {
         this.game = game;
         initComponents();
+        this.setSize(800, 700);
         progressBar.setMaximum(QuestionLibrary.getInstance().getQuestionAmount());
 
         this.teamButtons = new JButton[]{teams[0], teams[1], teams[2], teams[3]};
@@ -152,7 +153,7 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
         chooseQuestionPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Questions"));
         chooseQuestionPanel.setLayout(new java.awt.GridBagLayout());
 
-        gameQuestions.setFont(new java.awt.Font("Liberation Mono", 0, 15));
+        gameQuestions.setFont(new java.awt.Font("Liberation Mono", 1, 20));
         gameQuestions.addActionListener(new java.awt.event.ActionListener() {
 
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -185,7 +186,7 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 10);
         getContentPane().add(chooseQuestionPanel, gridBagConstraints);
 
-        question.setFont(new java.awt.Font("Liberation Sans", 1, 15));
+        question.setFont(new java.awt.Font("Liberation Sans", 1, 25));
         question.setText(" ");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -515,8 +516,9 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
         boolean answeredCompletely;
         if (game.getCurrentQuestion() != null) {
             answeredCompletely = game.getCurrentQuestion().wasAnswered();
-            if (!answeredCompletely && (JOptionPane.showConfirmDialog(this, "Question was not answered completely. Continue?",
-                    "Next Question", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION)) {
+            if (!answeredCompletely
+                    && (JOptionPane.showConfirmDialog(this, "Question was not answered completely. Continue?",
+                            "Next Question", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION)) {
                 setNextQuestion();
             } else if (answeredCompletely) {
                 setNextQuestion();
@@ -525,14 +527,13 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
             setNextQuestion();
         }
     }
-    
+
     private void setNextQuestion() {
         cwo.setNextQuestion(questions.get(game.getNextQuestion()));
 
         if (game.getNextQuestion() < questions.size() - 1) {
             game.setNextQuestion(game.getNextQuestion() + 1);
             gameQuestions.setText(questions.get(game.getNextQuestion()).getQuestionText());
-
         } else {
             game.setNextQuestion(0);
             gameQuestions.setText(questions.get(0).getQuestionText());
@@ -544,7 +545,6 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
             game.setFinished(true);
             cwo.update();
             showWinner.setText("Resume Game");
-
         } else {
             game.setFinished(false);
             cwo.update();
@@ -558,7 +558,7 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
             System.exit(0);
         }
     }
-    
+
     private void initNames() {
         for (int team = 0; team < game.getTeams().size(); team++) {
             setTeams(teamNames[team].getText(), team);
@@ -597,7 +597,6 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
                     || evt.getSource().equals(getTeamNames()[3]) && game.getNumberOfPlayers() < 4) {
                 return;
             }
-
             JTextField src = (JTextField) evt.getSource();
 
             if (!src.isEnabled()) {

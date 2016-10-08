@@ -65,7 +65,7 @@ public class Controller {
     private class ControllerWindowObserver implements Observer {
 
         public void update(Observable o, Object arg) {
-           if (arg instanceof Answer) {
+            if (arg instanceof Answer) {
                 Controller.this.showAnswer((Answer) arg);
             } else if (arg instanceof Question) {
                 Controller.this.nextQuestion((Question) arg);
@@ -74,6 +74,7 @@ public class Controller {
             }
             Controller.this.update();
         }
+
         public void update(Observable o) {
             Controller.this.update();
         }
@@ -122,6 +123,9 @@ public class Controller {
     };
     ReleaseTimer releaseTimer;
 
+    /**
+     * releaseBuzzer penalizing current Team
+     */
     public void releaseBuzzers() {
         if (game.getCurrentTeam() >= 0) {
             game.getTeams().get(game.getCurrentTeam() - 1).addPenalty();
