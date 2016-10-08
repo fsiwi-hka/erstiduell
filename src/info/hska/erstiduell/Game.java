@@ -59,6 +59,7 @@ public class Game extends Observable {
         }
         return teams.get(player - 1).getPoints();
     }
+    
     public GraphicsDevice getDevice() {
         return device;
     }
@@ -72,9 +73,15 @@ public class Game extends Observable {
 
         setChanged();
         notifyObservers(this);
-        //   gw.showBuzzer(team);
     }
 
+    public void setCurrentQuestion(Question question) {
+        this.currentQuestion = question;
+        
+        setChanged();
+        notifyObservers(this);
+    }
+    
     public Question getCurrentQuestion() {
         return currentQuestion;
     }
@@ -85,13 +92,6 @@ public class Game extends Observable {
     
     public void setNextQuestion(int nextQuestion) {
         this.nextQuestion = nextQuestion;
-    }
-    
-    public void setCurrentQuestion(Question question) {
-        this.currentQuestion = question;
-        
-        setChanged();
-        notifyObservers(this);
     }
 
     public void resetPenalties() {

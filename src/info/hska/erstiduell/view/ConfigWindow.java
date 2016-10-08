@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-/*
+ /*
  * ConfigWindow.java
  *
  * Created on 12.03.2011, 21:55:44
@@ -487,7 +487,9 @@ public final class ConfigWindow extends javax.swing.JFrame {
         for (GraphicsDevice d : devices) {
             outputMonitor.addItem(d);
         }
-        outputMonitor.setSelectedIndex(1);
+        if (devices.length > 1) {
+            outputMonitor.setSelectedIndex(1);
+        }
     }
 
     private javax.swing.JSpinner amountPlayers;
