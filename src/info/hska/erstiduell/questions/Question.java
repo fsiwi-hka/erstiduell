@@ -44,7 +44,10 @@ public class Question {
     public String getQuestionText() {
         return question;
     }
-
+    /**
+     * Getter for answers to this question
+     * @return List of answers to this question
+     */
     public List<Answer> getAnswers() {
         return answers;
     }
@@ -55,6 +58,19 @@ public class Question {
 
     public boolean getDone() {
         return done;
+    }
+    /**
+     * checks weather all answers to this question are done
+     * @return true if all answers were done, false otherwise
+     */
+    public boolean wasAnswered() {
+
+        boolean answeredCompletely = true;
+
+        for (int i = 0; i < this.getAnswers().size(); i++) {
+            answeredCompletely = this.getAnswers().get(i).getDone() && answeredCompletely;
+        }
+        return answeredCompletely;
     }
 
     @Override

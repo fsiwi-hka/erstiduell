@@ -156,16 +156,7 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
         gameQuestions.addActionListener(new java.awt.event.ActionListener() {
 
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cwo.setNextQuestion(questions.get(game.getNextQuestion()));
-
-                if (game.getNextQuestion() < questions.size() - 1) {
-                    game.setNextQuestion(game.getNextQuestion() + 1);
-                    gameQuestions.setText(questions.get(game.getNextQuestion()).getQuestionText());
-
-                } else {
-                    game.setNextQuestion(0);
-                    gameQuestions.setText(questions.get(0).getQuestionText());
-                }
+                gameQuestionsActionPerformed();
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -528,6 +519,37 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
         answer(4);
     }
 
+    /**
+     * Calls setNextQuestion if all answers were shown, else asks for approval.
+     */
+    private void gameQuestionsActionPerformed() {
+        boolean answeredCompletely;
+        if (game.getCurrentQuestion() != null) {
+            answeredCompletely = game.getCurrentQuestion().wasAnswered();
+            if (!answeredCompletely && (JOptionPane.showConfirmDialog(this, "Question was not answered completely. Continue?",
+                    "Next Question", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION)) {
+                setNextQuestion();
+            } else if (answeredCompletely) {
+                setNextQuestion();
+            }
+        } else {
+            setNextQuestion();
+        }
+    }
+    
+    private void setNextQuestion() {
+        cwo.setNextQuestion(questions.get(game.getNextQuestion()));
+
+        if (game.getNextQuestion() < questions.size() - 1) {
+            game.setNextQuestion(game.getNextQuestion() + 1);
+            gameQuestions.setText(questions.get(game.getNextQuestion()).getQuestionText());
+
+        } else {
+            game.setNextQuestion(0);
+            gameQuestions.setText(questions.get(0).getQuestionText());
+        }
+    }
+
     private void showWinnerActionPerformed(java.awt.event.ActionEvent evt) {
         if (!game.isFinished()) {
             game.setFinished(true);
@@ -632,7 +654,6 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
             } else if (src.equals(getTeamNames()[3])) {
                 team = 3;
             }
-
             setTeams(src.getText(), team);
             game.getTeams().get(team).setName(src.getText());
             BuzzerEventQueue.getInstance().setEnabled(!getTeamNames()[0].isEnabled() && !getTeamNames()[1].isEnabled()
