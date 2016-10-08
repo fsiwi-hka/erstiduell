@@ -167,17 +167,6 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
         gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 10);
         chooseQuestionPanel.add(gameQuestions, gridBagConstraints);
 
-        nextQuestionButton.setText("Random Question");
-        nextQuestionButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                randomQuestionActionPerformed();
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(2, 0, 2, 2);
-        chooseQuestionPanel.add(nextQuestionButton, gridBagConstraints);
-
         progressBar.setString("X/X");
         progressBar.setStringPainted(true);
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -569,20 +558,7 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
             System.exit(0);
         }
     }
-
-    private void randomQuestionActionPerformed() {
-        List<Question> qs = QuestionLibrary.getInstance().getAllQuestions();
-
-        // Get random question
-        int i = (int) (Math.random() * qs.size());
-        int count = 0;
-
-        while (count++ < qs.size() && qs.get(i).getDone()) {
-            i = (i + 1) % qs.size();
-        }
-        cwo.setNextQuestion(qs.get(i));
-    }
-
+    
     private void initNames() {
         for (int team = 0; team < game.getTeams().size(); team++) {
             setTeams(teamNames[team].getText(), team);
