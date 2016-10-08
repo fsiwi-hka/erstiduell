@@ -53,7 +53,7 @@ public final class BuzzerEventQueue extends EventQueue {
             for (int i = 0; i < hotkeys.length; i++) {
                 if (hotkeys[i].equals(new Key(evt))) {
 
-                    player = i + 1;
+                    player = i;
 
                     bh.setSuccessfulBuzz(player);
 

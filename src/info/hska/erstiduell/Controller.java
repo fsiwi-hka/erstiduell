@@ -127,8 +127,8 @@ public class Controller {
      * releaseBuzzer penalizing current Team
      */
     public void releaseBuzzers() {
-        if (game.getCurrentTeam() >= 0) {
-            game.getTeams().get(game.getCurrentTeam() - 1).addPenalty();
+        if (game.getCurrentTeam() > -1) {
+            game.getTeams().get(game.getCurrentTeam()).addPenalty();
             game.setCurrentTeam(-1);
             gw.redraw();
             boolean endQuestion = true;

@@ -70,8 +70,8 @@ public class GameWindow extends javax.swing.JFrame implements Observer {
     }
 
     public void showBuzzer(int team) {
-        if (team > 0) {
-            timer.setText("<html><center>" + game.getTeams().get(team - 1).getName()
+        if (team > -1) {
+            timer.setText("<html><center>" + game.getTeams().get(team).getName()
                     + "</center></html>");
         }
         timerPanel.setVisible(true);

@@ -64,25 +64,33 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
 
     public void refresh() {
 
-        points1.getModel().setValue(game.getPoint(1));
-        points2.getModel().setValue(game.getPoint(2));
-        points3.getModel().setValue(game.getPoint(3));
-        points4.getModel().setValue(game.getPoint(4));
+        points1.getModel().setValue(game.getPoint(0));
+        points2.getModel().setValue(game.getPoint(1));
+        points3.getModel().setValue(game.getPoint(2));
+        points4.getModel().setValue(game.getPoint(3));
 
-        if (game.getCurrentTeam() > 0) {
-            buzzers.setText("Release Buzzers and penalize "
-                    + game.getTeams().get(game.getCurrentTeam() - 1).getName());
-        } else if (game.getCurrentTeam() == 0) {
-            buzzers.setText("Premature Buzzering");
+        if (game.getCurrentTeam() > -1) {
+            next.setText("<html><b><font color='red'>Give points to "
+                    + game.getTeams().get(game.getCurrentTeam()).getName()
+                    + " and release</font></b></html>");
+            buzzers.setText("Release buzzers and penalize "
+                    + game.getTeams().get(game.getCurrentTeam()).getName());
+        } else if (game.getCurrentTeam() == -2) {
+            buzzers.setText("Premature buzzering");
+            next.setText(" ");
+            next.setEnabled(false);
+
         } else {
-            buzzers.setText("Release Buzzers");
+            buzzers.setText("Release buzzers");
+            next.setText(" ");
+            next.setEnabled(false);
         }
 
         buzzers.setEnabled(game.areBuzzersBlocked());
 
         for (int i = 0; i < this.game.getTeams().size(); i++) {
             teamButtons[i].setText("<html><b><font color='"
-                    + (game.getCurrentTeam() == i + 1 ? "red" : "black")
+                    + (game.getCurrentTeam() == i ? "red" : "black")
                     + "'>"
                     + this.game.getTeams().get(i).getName()
                     + "</font></b></html>");
@@ -332,7 +340,7 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
 
             @Override
             public void stateChanged(ChangeEvent e) {
-                game.getTeams().get(1 - 1).setPoints((Integer) points1.getValue());
+                game.getTeams().get(0).setPoints((Integer) points1.getValue());
                 cwo.update();
             }
         });
@@ -349,10 +357,9 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
 
             @Override
             public void stateChanged(ChangeEvent e) {
-                game.getTeams().get(2 - 1).setPoints((Integer) points2.getValue());
+                game.getTeams().get(1).setPoints((Integer) points2.getValue());
                 cwo.update();
             }
-
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -370,10 +377,9 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
 
             @Override
             public void stateChanged(ChangeEvent e) {
-                game.getTeams().get(3 - 1).setPoints((Integer) points3.getValue());
+                game.getTeams().get(2).setPoints((Integer) points3.getValue());
                 cwo.update();
             }
-
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
@@ -391,7 +397,7 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
 
             @Override
             public void stateChanged(ChangeEvent e) {
-                game.getTeams().get(4 - 1).setPoints((Integer) points4.getValue());
+                game.getTeams().get(3).setPoints((Integer) points4.getValue());
                 cwo.update();
             }
         });
@@ -494,19 +500,19 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
     }// </editor-fold>
 
     public void team1ActionPerformed(java.awt.event.ActionEvent evt) {
-        answer(1);
+        answer(0);
     }
 
     public void team2ActionPerformed(java.awt.event.ActionEvent evt) {
-        answer(2);
+        answer(1);
     }
 
     public void team3ActionPerformed(java.awt.event.ActionEvent evt) {
-        answer(3);
+        answer(2);
     }
 
     public void team4ActionPerformed(java.awt.event.ActionEvent evt) {
-        answer(4);
+        answer(3);
     }
 
     /**
@@ -641,7 +647,7 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
         if (answers.getSelectedValue() != null) {
             Answer a = (Answer) answers.getSelectedValue();
             if (!a.getDone()) {
-                game.getTeams().get(player - 1).addPoints(a.getAmount());
+                game.getTeams().get(player).addPoints(a.getAmount());
                 a.done();
             }
             game.setCurrentTeam(-1);

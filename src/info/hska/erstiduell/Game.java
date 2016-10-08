@@ -31,7 +31,7 @@ public class Game extends Observable {
 
         teams = new ArrayList<Team>();
         for (int i = 0; i < config.players; i++) {
-            teams.add(new Team("T" + (i + 1)));
+            teams.add(new Team("T" + (i)));
         }
         device = config.display;
     }
@@ -53,10 +53,10 @@ public class Game extends Observable {
     }
 
     public int getPoint(int player) {
-        if (player > teams.size()) {
+        if (player >= teams.size()) {
             return 0;
         }
-        return teams.get(player - 1).getPoints();
+        return teams.get(player).getPoints();
     }
     
     public GraphicsDevice getDevice() {

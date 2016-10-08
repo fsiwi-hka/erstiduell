@@ -38,15 +38,15 @@ public final class BuzzerHandler extends Observable {
 
     protected void setSuccessfulBuzz(int player) {
 
-        if (enabled && game != null && this.game.getCurrentQuestion() != null && player <= game.getNumberOfPlayers()) {
+        if (enabled && game != null && this.game.getCurrentQuestion() != null && player < game.getNumberOfPlayers()) {
 
             long now = System.currentTimeMillis();
             int numAnswers = this.game.getCurrentQuestion().getAnswers().size();
 
-            if (this.game.getTeams().get(player - 1).getPenalty() < numAnswers) {
+            if (this.game.getTeams().get(player).getPenalty() < numAnswers) {
                 if (game.areBuzzersBlocked()) {
-                    lastBuzz[player - 1] = now;
-                } else if (now - lastBuzz[player - 1] < 1000) {
+                    lastBuzz[player] = now;
+                } else if (now - lastBuzz[player] < 1000) {
 
                 } else {
                     //game.setBuzzersBlocked(true);
@@ -61,7 +61,7 @@ public final class BuzzerHandler extends Observable {
     }
 
     public void release() {
-        currentPlayer = 0;
+        currentPlayer = -1;
         //game.setCurrentTeam(0);
         blocked = false;
             //game.setBuzzersBlocked(false);
