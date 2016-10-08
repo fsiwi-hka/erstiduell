@@ -147,6 +147,8 @@ public class GameWindow extends javax.swing.JFrame implements Observer {
     }
 
     private void drawContent() {
+        winnerLabel.setVisible(false);
+        content.setVisible(true);
         StringBuilder c = new StringBuilder("<html>");
         Question cur;
         if ((cur = game.getCurrentQuestion()) != null) {

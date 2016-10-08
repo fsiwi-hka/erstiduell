@@ -529,10 +529,15 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
     }
 
     private void showWinnerActionPerformed(java.awt.event.ActionEvent evt) {
-        if (JOptionPane.showConfirmDialog(this, "This will be irreversible. Still do it?",
-                "End Game?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
+        if (!game.isFinished()) {
             game.setFinished(true);
             cwo.update();
+            showWinner.setText("Resume Game");
+
+        } else {
+            game.setFinished(false);
+            cwo.update();
+            showWinner.setText("Show Winner");
         }
     }
 
