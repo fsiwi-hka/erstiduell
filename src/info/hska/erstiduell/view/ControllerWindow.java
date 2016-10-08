@@ -236,13 +236,13 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
         gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 2);
         answerPanel.add(buzzers, gridBagConstraints);
 
-        show.setText("Show");
+        show.setText("Show without giving Points");
         show.setEnabled(false);
         show.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
                 if (answers.getSelectedValue() != null) {
-                    cwo.showAnswer((Answer) answers.getSelectedValue());
+                    cwo.showAnswer((Answer) answers.getSelectedValue());                            
                 }
             }
         });
