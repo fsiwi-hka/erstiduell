@@ -38,11 +38,22 @@ public class GameWindow extends javax.swing.JFrame implements Observer {
         this.game.getDevice().setFullScreenWindow(this);
         this.points = new JLabel[]{points1, points2, points3, points4};
         this.teams = new JLabel[]{teamName1, teamName2, teamName3, teamName4};
+        for (int i = 0; i < teams.length; i++) {
+            game.getTeams().get(i).addObserver(new TeamObserver());
+        }
     }
 
     public void update(Observable Game, Object o) {
         this.game = (Game) o;
         redraw();
+    }
+
+    private class TeamObserver implements Observer {
+
+        public void update(Observable Team, Object arg) {
+            redraw();
+        }
+
     }
 
     public void setBGColor(Color color) {
@@ -128,6 +139,9 @@ public class GameWindow extends javax.swing.JFrame implements Observer {
                     break;
                 default:
                     color = "black";
+            }
+            if (game.getTeams().get(team).getTemporarilyBlocked()) {
+                color = "green";
             }
             myAsterisk = myAsterisk + "</p>";
             teams[team].setText("<html><font color='" + color + "'>"

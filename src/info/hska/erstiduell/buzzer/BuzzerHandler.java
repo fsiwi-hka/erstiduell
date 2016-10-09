@@ -47,8 +47,9 @@ public final class BuzzerHandler extends Observable {
                 if (game.areBuzzersBlocked()) {
                     lastBuzz[player] = now;
                 } else if (now - lastBuzz[player] < 1000) {
-
+                    game.getTeams().get(player).setTemporarilyBlocked(true);
                 } else {
+                    game.getTeams().get(player).setTemporarilyBlocked(false);
                     blocked = true;
                     currentPlayer = player;
 
