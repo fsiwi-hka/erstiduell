@@ -100,11 +100,11 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
 
         if (game.getNextQuestion() < questions.size()) {
 
-            gameQuestions.setText(questions.get(game.getNextQuestion()).getQuestionText());
+            gameQuestions.setText("Next question: " + questions.get(game.getNextQuestion()).getQuestionText());
         }
 
         if (game.getCurrentQuestion() != null) {
-            question.setText(game.getCurrentQuestion().getQuestionText());
+            question.setText("Question:  " + game.getCurrentQuestion().getQuestionText());
 
             answers.setModel(new AbstractListModel() {
 
@@ -555,10 +555,10 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
 
         if (game.getNextQuestion() < questions.size() - 1) {
             game.setNextQuestion(game.getNextQuestion() + 1);
-            gameQuestions.setText(questions.get(game.getNextQuestion()).getQuestionText());
+            gameQuestions.setText("Next question: " + questions.get(game.getNextQuestion()).getQuestionText());
         } else {
             game.setNextQuestion(0);
-            gameQuestions.setText(questions.get(0).getQuestionText());
+            gameQuestions.setText("Start from beginning: " + questions.get(0).getQuestionText());
         }
     }
 

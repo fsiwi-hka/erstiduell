@@ -49,7 +49,6 @@ public final class BuzzerHandler extends Observable {
                 } else if (now - lastBuzz[player] < 1000) {
 
                 } else {
-                    //game.setBuzzersBlocked(true);
                     blocked = true;
                     currentPlayer = player;
 
@@ -62,10 +61,7 @@ public final class BuzzerHandler extends Observable {
 
     public void release() {
         currentPlayer = -1;
-        //game.setCurrentTeam(0);
         blocked = false;
-            //game.setBuzzersBlocked(false);
-
         setChanged();
         notifyObservers(this);
     }
