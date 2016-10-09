@@ -28,8 +28,6 @@ public final class BuzzerEventQueue extends EventQueue {
     private final Key[] hotkeys;
     private boolean enabled;
     private BuzzerHandler bh;
-    private boolean blocked;
-    private long[] lastBuzz;
     private int player;
 
     // INSTANCE

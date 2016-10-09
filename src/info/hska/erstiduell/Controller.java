@@ -35,14 +35,12 @@ public class Controller {
 
     public void configured(Config config) {
         game = new Game(config);
-
         bh = new BuzzerHandler(config.hotkeys, game);
         BuzzerObserver bo = new BuzzerObserver();
         bh.addObserver(bo);
         BuzzerEventQueue.setKeys(config.hotkeys, bh);
 
         Toolkit.getDefaultToolkit().getSystemEventQueue().push(BuzzerEventQueue.getInstance());
-
         createGameWindow(config, this);
         game.addObserver(cw);
         game.addObserver(gw);
@@ -74,7 +72,6 @@ public class Controller {
             }
             Controller.this.update();
         }
-
         public void update(Observable o) {
             Controller.this.update();
         }
@@ -113,8 +110,8 @@ public class Controller {
                 gw.showTimer("Get ready!<br>1");
                 Thread.sleep(1000);
             } catch (InterruptedException ex) {
+                ex.printStackTrace();
             }
-
             releaseTimer = null;
             game.setBuzzersBlocked(false);
             bh.release();

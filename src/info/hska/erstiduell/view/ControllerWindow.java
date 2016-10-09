@@ -125,6 +125,28 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
     }
 
     // <editor-fold defaultstate="collapsed">
+    private javax.swing.JPanel answerPanel;
+    private javax.swing.JButton gameQuestions;
+    private javax.swing.JList answers;
+    private javax.swing.JButton buzzers;
+    private javax.swing.JPanel chooseQuestionPanel;
+    private javax.swing.JButton exitButton;
+    private javax.swing.JPanel gamePanel;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton nextQuestionButton;
+    private javax.swing.JPanel pointPanel;
+    private javax.swing.JSpinner points1;
+    private javax.swing.JSpinner points2;
+    private javax.swing.JSpinner points3;
+    private javax.swing.JSpinner points4;
+    private javax.swing.JProgressBar progressBar;
+    private javax.swing.JLabel question;
+    private javax.swing.JButton show;
+    private javax.swing.JButton showWinner;
+    private javax.swing.JButton[] teams;
+    private javax.swing.JTextField[] teamNames;
+    private javax.swing.JButton next;
+
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
@@ -513,7 +535,7 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
         getContentPane().add(gamePanel, gridBagConstraints);
 
         pack();
-    }// </editor-fold>
+    }
 
     public void team1ActionPerformed(java.awt.event.ActionEvent evt) {
         answer(0);
@@ -530,6 +552,7 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
     public void team4ActionPerformed(java.awt.event.ActionEvent evt) {
         answer(3);
     }
+// </editor-fold>
 
     /**
      * Calls setNextQuestion if all answers were shown, else asks for approval.
@@ -640,7 +663,6 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
         JTextField src = (JTextField) evt.getSource();
         if (src.isEnabled()) {
             src.setEnabled(false);
-
             int team = -1;
 
             if (src.equals(getTeamNames()[0])) {
@@ -682,26 +704,4 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
             buzzersActionPerformed();
         }
     }
-
-    private javax.swing.JPanel answerPanel;
-    private javax.swing.JButton gameQuestions;
-    private javax.swing.JList answers;
-    private javax.swing.JButton buzzers;
-    private javax.swing.JPanel chooseQuestionPanel;
-    private javax.swing.JButton exitButton;
-    private javax.swing.JPanel gamePanel;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JButton nextQuestionButton;
-    private javax.swing.JPanel pointPanel;
-    private javax.swing.JSpinner points1;
-    private javax.swing.JSpinner points2;
-    private javax.swing.JSpinner points3;
-    private javax.swing.JSpinner points4;
-    private javax.swing.JProgressBar progressBar;
-    private javax.swing.JLabel question;
-    private javax.swing.JButton show;
-    private javax.swing.JButton showWinner;
-    private javax.swing.JButton[] teams;
-    private javax.swing.JTextField[] teamNames;
-    private javax.swing.JButton next;
 }
