@@ -98,7 +98,6 @@ public class GameWindow extends javax.swing.JFrame implements Observer {
     public void redraw() {
         timerPanel.setVisible(false);
         timer.setText("");
-        refreshPoints();
         drawPlayerNames();
 
         if (game.isFinished()) {
@@ -134,11 +133,11 @@ public class GameWindow extends javax.swing.JFrame implements Observer {
                 case 1:
                     color = "orange";
                     break;
-                case 2:
-                    color = "blue";
-                    break;
                 default:
                     color = "black";
+            }
+            if (game.getCurrentTeam() == team) {
+                color = "blue";
             }
             if (game.getTeams().get(team).getTemporarilyBlocked()) {
                 color = "green";
@@ -149,13 +148,10 @@ public class GameWindow extends javax.swing.JFrame implements Observer {
                     + game.getTeams().get(team).getName()
                     + myAsterisk
                     + "</font></html>");
-        }
-    }
-
-    private void refreshPoints() {
-        for (int i = 0; i < 4; i++) {
-            if (points[i] != null) {
-                points[i].setText(String.valueOf(game.getTeams().get(i).getPoints()));
+            if (points[team] != null) {
+                points[team].setText("<html><font color='" + color + "'>"
+                        + String.valueOf(game.getTeams().get(team).getPoints())
+                        + "</font></html>");
             }
         }
     }
