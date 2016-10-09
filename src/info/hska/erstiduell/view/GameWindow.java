@@ -124,7 +124,7 @@ public class GameWindow extends javax.swing.JFrame implements Observer {
                     color = "orange";
                     break;
                 case 2:
-                    color = "yellow";
+                    color = "blue";
                     break;
                 default:
                     color = "black";
