@@ -75,6 +75,7 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
                     + " and release</font></b></html>");
             buzzers.setText("Release buzzers and penalize "
                     + game.getTeams().get(game.getCurrentTeam()).getName());
+
         } else if (game.getCurrentTeam() == -2) {
             buzzers.setText("Premature buzzering");
             next.setText(" ");
@@ -102,7 +103,6 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
 
             gameQuestions.setText("Next question: " + questions.get(game.getNextQuestion()).getQuestionText());
         }
-
         if (game.getCurrentQuestion() != null) {
             question.setText("Question:  " + game.getCurrentQuestion().getQuestionText());
 
@@ -701,7 +701,9 @@ public final class ControllerWindow extends javax.swing.JFrame implements Observ
                 a.done();
             }
             game.setCurrentTeam(-1);
-            buzzersActionPerformed();
+            if (!game.getCurrentQuestion().wasAnswered()) {
+                buzzersActionPerformed();
+            }
         }
     }
 }

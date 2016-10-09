@@ -66,5 +66,4 @@ public final class BuzzerHandler extends Observable {
         setChanged();
         notifyObservers(this);
     }
-
 }
