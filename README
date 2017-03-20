@@ -1,4 +1,4 @@
-This is a netbeans project. Use either Netbeans to compile it or Ant.
+This is a Netbeans project. Use either Netbeans to compile it or Ant.
 If you want to use Ant just type:
 
 $ ant
@@ -8,7 +8,7 @@ to compile and:
 $ ant run
 
 to run. Once compiled there is also a JAR file in the dist folder that u can use
-everwhere:
+everywhere:
 
 $ java -jar erstiduell.jar
 
@@ -27,6 +27,4 @@ Usage should be self explaining:
 - You can change the team name in the Gamecontroller window by double clicking the team name box
 
 *BACKLOG (no order)
-** fix error in JComboBox (probably racecondition, since it does not occur in debug mode)
 ** enable controlling game via keyboard
-** make number of remaining tries for answering question visible
