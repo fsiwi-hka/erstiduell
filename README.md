@@ -17,7 +17,7 @@ $ java -jar erstiduell.jar
 
 Please read LICENSE file.
 
-##HowTo use:
+## HowTo use:
 
 * Start software
 * in configuration window
@@ -27,13 +27,13 @@ Please read LICENSE file.
 * in controller window
   * You can change the team name by double clicking the team name in the controller window
 
-##Game rules / mechanisms / colors:
+## Game rules / mechanisms / colors:
 
 * There is a Mario-Cart like penalty for buzzering before countdown is finished (teamname turns green if active)
 * Each team can guess wrong as many times as there are answers to the current question (stars above and below teamname show the tries the team has left - teamname turns orange if one try is left and red if none is left)
 * The teamname turns blue if the team won the buzzer race and is therefore active
 
-##BACKLOG (no order)
+## BACKLOG (no order)
 * Enable controlling game via keyboard
 * Display name of display (if possible) to make choosing easier
 * Add sounds
